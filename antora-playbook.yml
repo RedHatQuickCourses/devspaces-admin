@@ -1,6 +1,6 @@
 site:
-  title: Placeholder Course Title
-  start_page: placeholder-course-name::index.adoc
+  title: Red Hat OpenShift DevSpaces Administration
+  start_page: devspaces-admin::index.adoc
 
 content:
   sources:
