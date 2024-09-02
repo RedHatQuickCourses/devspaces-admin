@@ -1,1 +1,7 @@
 * xref:index.adoc[]
+* xref:install.adoc[]
+** xref:operator.adoc[]
+** xref:cli.adoc[]
+** xref:gitops.adoc[]
+* xref:upgrade.adoc[]
+* xref:remove.adoc[]

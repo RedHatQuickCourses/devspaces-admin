@@ -1,5 +1,5 @@
 site:
-  title: Red Hat OpenShift DevSpaces Administration
+  title: Red Hat OpenShift Dev Spaces Administration
   start_page: devspaces-admin::index.adoc
 
 content:

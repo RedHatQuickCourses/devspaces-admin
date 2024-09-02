@@ -1,6 +1,5 @@
 name: devspaces-admin
-title: Red Hat OpenShift DevSpaces Administration
+title: Red Hat OpenShift Dev Spaces Administration
 version: 3
 nav:
 - modules/ROOT/nav.adoc
-- modules/chapter1/nav.adoc

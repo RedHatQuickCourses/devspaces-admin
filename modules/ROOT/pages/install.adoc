@@ -1,0 +1,18 @@
+# Red Hat OpenShift Dev Spaces Installation
+
+Red Hat OpenShift Dev Spaces runs on top of the **OpenShift Container Platform**. You can install Dev Spaces in multiple ways:
+
+Operator::
+You can install Dev Spaces using the **OperatorHub** page in the OpenShift Container Platform web console.
+
+OpenShift CLI (oc)::
+You can install Dev Spaces using the OpenShift client (`oc`) and YAML configuration files.
+
+GitOps::
+You can automate the installation, configuration and maintenance of the Dev Spaces instance using **OpenShift GitOps**. You maintain a set of YAML confuguration files in a Git repository, and OpenShift GitOps tracks the changes in this repository and applies the changes automatically to the OpenShift cluster.
+
+## Installation Sizing and Resource Requirements
+
+
+
+The following sections will cover these options in more detail.

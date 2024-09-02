@@ -1,6 +1,68 @@
-= Red Hat OpenShift DevSpaces Administration
+= Red Hat OpenShift Dev Spaces Administration
 :navtitle: Home
 
 == Introduction
 
-This is an example quick course demonstrating the usage of Antora for authoring and publishing quick courses.
+Welcome to this quick course on the _Red Hat OpenShift Dev Spaces Administration_.
+This course is the `second` in a series of `five` courses about Red Hat OpenShift DevSpaces:
+
+. https://redhatquickcourses.github.io/devspaces-intro[Introduction to Red Hat OpenShift Dev Spaces^]
+. Red Hat OpenShift Dev Spaces Administration (_This course_)
+. Securing Access to Red Hat OpenShift Dev Spaces (_Under Development_)
+. Creating and Customizing Workspaces in Red Hat OpenShift Dev Spaces (_Under Development_)
+. Configuring Plugins in Red Hat OpenShift Dev Spaces (_Under Development_)
+
+This course covers the install, updates and uninstall process for Red Hat OpenShift Dev Spaces.
+
+NOTE: The hands-on labs for this course have been tested on *Red Hat OpenShift Dev Spaces 3.15*. The labs should mostly work in minor update releases of Dev Spaces. If you encounter any issues, please open a GitHub issue in the course repository.
+
+== Contributors
+
+The PTL team acknowledges the valuable contributions of the following Red Hat associates:
+
+* Ravi Srinivasan
+* Rutuja Deshmukh
+* Anna Swicegood
+
+== Classroom Environment
+
+=== For Red Hat Associates
+
+Red Hat associates and others who have access to the Red Hat Demo Platform (RHDP) should use the https://demo.redhat.com/catalog?item=babylon-catalog-prod/sandboxes-gpte.ocp-wksp.prod[Red Hat OpenShift Container Platform Cluster (AWS)^] catalog item.
+
+This classroom does *NOT* have Dev Spaces pre-installed. You install and configure a basic Dev Spaces instance, and then continue using this instance with other courses in the learning path.
+
+Log in to RHDP and click `Order` to request a new OpenShift cluster. In the order page for the catalog item, do the following:
+
+* *Activity*: Select `Practice/Enablement`
+* *Purpose*: Select `Learning about the Product`
+* *Salesforce ID*: If you have an opportunity ID, enter it into this field, otherwise select `Project`, and then enter "Learning about Dev Spaces" in the text field. You will see a warning message that a Salesforce ID is required, but you can safely ignore it
+* *Features*: Select `Enable Cert Manager`, `Enable OPEN Environment`, and `Enable Let's Encrypt`
+* *Region*: Select the AWS region closest to your location
+* *User count*: `1`
+* *Control Plane Count*: `1`
+* *OpenShift Version*: `4.16` or higher
+
+Select the checkbox at the bottom of the page to confirm that lab costs will be charged to your cost center, and click `Order`.
+
+NOTE: The lab environment will take an hour to provision. You can check the status and details of the OpenShift cluster from the `Services` page of RHDP. The classroom is available for 48 hours initially. You can extend the duration of classroom availability by clicking `Help > Get Technical Help` in RHDP, and then requesting for an extension by opening a ServiceNow ticket with the RHDP team.
+
+=== For Red Hat Partners
+
+Red Hat partners and others who do not have access to RHDP, should provision their own Red Hat OpenShift 4.16+ cluster using the Red Hat Hybrid Cloud Console at https://console.redhat.com/openshift/overview. Ensure that you provision an OpenShift 4.16 cluster with at least 16 vCPUs and 64GB of RAM.
+
+NOTE: You can also install Dev Spaces and run the hands-on labs using OpenShift Local, provided you allocate a minimum of 16 vCPUs and 32GB+ RAM. Go to https://developers.redhat.com/products/openshift-local/overview and click on `Install OpenShift on your laptop`.
+
+== Prerequisites
+
+* Basic knowledge of OpenShift (or Kubernetes) administration
+* Knowledge of building Docker or Podman containers.
+* Deploying container images on OpenShift or Kubernetes
+* OpenShift or Kubernetes User and Role administration
+
+== Objectives
+
+The overall objectives of this course include:
+
+* Install, Upgrade and Uninstall Red Hat OpenShift Dev Spaces on OpenShift Container Platform
+* Perform basic configuration of Dev Spaces
