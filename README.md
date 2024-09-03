@@ -73,7 +73,7 @@ To add a new section under a chapter create an entry in the *modules/CHAPTER/nav
 
 10. Once reviewer(s) approve your PR, you should merge it into the **main** branch.
 
-11. Wait for a few minutes while the automated GitHub action publishes your changes ot the production GitHub pages website.
+11. Wait for a few minutes while the automated GitHub action publishes your changes to the production GitHub pages website.
 
 12. Verify that your changes have been published to the production GitHub pages website at https://redhatquickcourses.github.io/devspaces-admin
 
