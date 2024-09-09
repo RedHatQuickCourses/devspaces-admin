@@ -1,1 +1,187 @@
-# CLI
+= Installation of Dev Spaces using CLI Tools
+:navtitle: CLI
+
+There are two ways you can install Dev Spaces using CLI tools. The first approach, using the `oc` CLI and YAML configuration files is for scenarios where you need fine-grained control over specific versions, and fine-tuning other related YAML configuration for your Dev Spaces deployment.
+
+The second approach, using the `dsc` CLI (Dev Spaces client), is for quickly getting an instance of Dev Spaces up and running with a single one-liner command. You can always customize the instance to your liking at a later stage using the `oc` CLI and the OpenShift web console.
+
+== Installation using the `oc` CLI
+
+In scenarios where you need to install Dev Spaces using automated scripts, you can use the `oc` CLI tool and YAML configuration files to install and customize a Dev Spaces instance.
+
+=== Pre-requisites
+
+* You should have provisioned an OpenShift 4.16+ cluster as outlined the `Classroom Environment` section of the course home page. 
+* Download the OpenShift client `oc` for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
+* Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
+
+=== Lab: Using oc CLI to install Dev Spaces
+
+Using the `oc` CLI with YAML configuration files gives you more control and flexibility over how to install Dev Spaces. Whereas the web console and the `dsc` CLI is used to usually install the latest stable version of Dev Spaces, with this approach, you can install older versions, or specific product versions, and customize the OpenShift environment to fit your needs using the `oc` CLI approach.
+
+WARNING: If you have previously installed Dev Spaces using a different method, then run *dsc server:delete --delete-all --delete-namespace -n openshift-devspaces* as the `admin` user to completely remove the existing instance before you proceed with the installation.
+
+. Log in as the `admin` user with the `oc` CLI
++
+[subs=+quotes]
+----
+$ oc login -u admin _<OpenShift API URL>_
+----
+
+. Operators can be installed in two modes - `Automatic` and `Manual`. `Automatic` is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the configuration file at https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml. This file can be used to install Dev Spaces in `Automatic` mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new `CheCluster` instance. The https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml file is used to create a new `CheCluster` resource.
+
+. For manual installation mode, inspect and download the two YAML configuration files below. The first file defines a new namespace for installing Dev Spaces, along with the operator subscription, operator group and related configuration to install a specific version (v3.14) of Dev Spaces. The second file defines a basic configuration for the `CheCluster` resource and creates an instance named `devspaces`.
++
+* https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml
+* https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml
+
+. Install the operator.
++
+[subs=+quotes]
+----
+$ *oc apply -f manual-approval-operator.yaml*
+namespace/openshift-devspaces created
+operatorgroup.operators.coreos.com/devspaces-operator-group created
+subscription.operators.coreos.com/devworkspace-operator created
+subscription.operators.coreos.com/openshift-devspaces created
+----
+
+. You chose `Manual` approval for the operator installation, which means you need to log in to the OpenShift web console and `approve` the installation. You do not need to do this if you chose `Automatic` approval. Since we chose the manual approach, log in to the OpenShift web console as the `admin` user and click `Operators > Installed Operators`. Select `openshift-devspaces` in the `Project` drop-down. Click `Upgrade Available` link for the `devspaces` operator.
++
+image::op-manual-upgrade.png[title=Approval Required for Manual Install Mode]
+
+. In the `InstallPlan Details` page, click `Preview InstallPlan`. You should see a list of resource that will be created. Click `Approve` to proceed with the installation.
++
+image::install-plan-approve.png[title=Approve Install Plan]
+
+. Alternatively, you can also approve the install plan on the CLI using the following `oc` CLI commands:
++
+[subs=+quotes]
+----
+$ *oc get installplan -n openshift-devspaces* # get the installplan name
+$ *oc patch installplan \
+  _<install_plan_name>_ \
+  --type json  \
+  --patch '[{"op": "add", "path": "/spec/approved", "value": true}]' \
+  -n openshift-devspaces*
+----
+
+. Switch back to the `Installed Operators` page, and notice that the operator status now shows as `Installing`. Wait and monitor the progress of the operators until the status shows as  `Succeeded`.
+
+. Now that the operators are installed, create a `CheCluster` instance.
++
+[subs=+quotes]
+----
+$ *oc apply -f checluster-cr.yaml*
+checluster.org.eclipse.che/devspaces created
+----
+
+. Click `Operators > Installed Operators` and then click `Red Hat OpenShift Dev Spaces instance Specification` in the `Provided APIs` column. You should see a new `CheCluster` instance named `devspaces`. Click `devspaces` in the `Name` column to view the details. Verify that the `ChePhase` field is marked `Active`, and the `Message` field is showing `None` (indicating a successful installation without errors). Note down the URL value in the `Red Hat OpenShift Dev Spaces URL` field.
++
+image::devspaces-instance-cli.png[title=Dev Spaces instance created]
+
+. Navigate to the URL in the `Red Hat OpenShift Dev Spaces URL` field, and log in as the `user1` to view the Dev Spaces dashboard.
+
+== Installation using the `dsc` CLI
+
+While you can install Dev Spaces using the OpenShift `oc` CLI tool and YAML configuration files, Red Hat provides a convenient wrapper CLI tool called **dsc** (Dev Spaces client) to install and uninstall Dev Spaces.
+
+=== Pre-requisites
+
+* You should have provisioned an OpenShift 4.16+ cluster as outlined the `Classroom Environment` section of the course home page. 
+* Download the OpenShift client `oc` for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
+* Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
+* Download the latest `dsc` tool for your operating system from https://developers.redhat.com/products/openshift-dev-spaces/download. 
+** Extract the archive file and copy the `dsc` directory to a suitable location in your workstation (`/usr/local` is a good choice). 
+** Add the `/usr/local/dsc/bin` folder to your operating system `PATH` environment variable
+
+=== Lab: Using dsc CLI to install Dev Spaces
+
+WARNING: If you have previously installed Dev Spaces using a different method, then run *dsc server:delete --delete-all --delete-namespace -n openshift-devspaces* as the `admin` user to completely remove the existing instance before you proceed with the installation. 
+
+. The `dsc` tool uses the log in context provided by the `oc` CLI tool to manage Dev Spaces instances. Log in as the `admin` user with the `oc` CLI before running `dsc`. Verify that you can execute the `dsc` binary file on your operating system.
++
+[subs=+quotes]
+----
+$ oc login -u admin _<OpenShift API URL>_
+$ dsc version
+dsc/3.15.0-CI darwin-arm64 node-v18.20.2
+----
++
+TIP: Use the `dsc server --help` command to list some useful commands to manage Dev Spaces instances.
+
+. Create the `openshift-devspaces` namespace using the `oc` CLI as the `admin` user
++
+[subs=+quotes]
+----
+$ *oc create namespace openshift-devspaces*
+namespace/openshift-devspaces created
+----
+
+. Doing a basic install of Dev Spaces with simple defaults is a one-line command. The command will take a few minutes to run and will show the status of the installation as it runs.
++
+[subs=+quotes]
+----
+$ *dsc server:deploy -p openshift -n openshift-devspaces*
+› Current Kubernetes context: 'default/api-cluster...'
+  ✔ Verify Kubernetes API...[1.29]
+  ✔ OpenShift version...[4.16]
+  ✔ Openshift preflight checklist
+    ✔ Verify if oc is installed...[OK]
+    ✔ Verify if openshift is running...[OK]
+  ✔ Create Namespace openshift-devspaces...[Exists]
+  ✔ Start following Red Hat OpenShift Dev Spaces installation logs...[OK]
+  ✔ Deploy Red Hat OpenShift Dev Spaces
+    ✔ Create Subscription devspaces-subscription...[Created]
+    ✔ Red Hat OpenShift Dev Spaces Operator pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Fetch CheCluster sample from a CSV...[OK]
+    ✔ Create CheCluster Custom Resource...[Created]
+  ✔ Wait for Red Hat OpenShift Dev Spaces ready
+    ✔ Devfile Registry pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Plugin Registry pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Dashboard pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Gateway pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Red Hat OpenShift Dev Spaces Server pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Wait Red Hat OpenShift Dev Spaces active...[OK]
+  ✔ Retrieving Red Hat OpenShift Dev Spaces self-signed CA certificate...
+  ✔ Prepare post installation output...[OK]
+  ✔ Show important messages
+    ✔ Red Hat OpenShift Dev Spaces 3.15.0 has been successfully deployed.
+    ...
+Command server:deploy has completed successfully in 02:51.
+----
++
+WARNING: `dsc` on macOS ARM64 *is not officially supported* as of Sep 2024. As a temporary workaround, execute *dsc server:deploy -p openshift -n openshift-devspaces  --skip-devworkspace-operator*. If the install still fails, try executing the client on Linux or Windows AMD64 based machines and see if the installation works.
++
+TIP: Use the `dsc server:deploy --help` command to list the full options to control the installation. In this course, we will configure a basic instance and then customize it using YAML configuration files.
+
+. The previous command should print a lot of details about your Dev Spaces instance if installation was successful. You can also run the `dsc server:status` command to get the URL of the Dev Spaces dashboard
++
+[subs=+quotes]
+----
+$ *dsc server:status*
+Red Hat OpenShift Dev Spaces Version    : 3.15.0
+Red Hat OpenShift Dev Spaces Url        : https://devspaces.apps.cluster-*<guid>.<guid>*.sandbox1152.opentlc.com/dashboard/
+----
+
+== References
+
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#installing-devspaces-on-openshift-using-cli[Installing Dev Spaces on OpenShift using CLI^]

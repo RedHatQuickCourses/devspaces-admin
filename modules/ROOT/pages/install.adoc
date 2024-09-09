@@ -3,11 +3,11 @@
 
 Red Hat OpenShift Dev Spaces runs on top of the **OpenShift Container Platform**. You can install Dev Spaces in multiple ways:
 
-Operator::
+OpenShift Web Console::
 You can install Dev Spaces using the **OperatorHub** page in the OpenShift Container Platform web console.
 
-Dev Spaces CLI (dsc)::
-You can install Dev Spaces using the Dev Spaces client (`dsc`) and YAML configuration files.
+CLI::
+You can install Dev Spaces using the Dev Spaces client (`dsc`), or the OpenShift client (`oc`) CLI.
 
 GitOps::
 You can automate the installation, configuration and maintenance of the Dev Spaces instance using **OpenShift GitOps**. You maintain a set of YAML configuration files in a Git repository, and OpenShift GitOps tracks the changes in this repository and applies the changes automatically to the OpenShift cluster.
@@ -17,3 +17,5 @@ The following sections will cover these options in more detail.
 ## Installation Sizing and Resource Requirements
 
 Irrespective of the installation method you choose, you need to plan for resource allocation based on the number of users, and workspaces they will create. See https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#calculating-devspaces-resource-requirements[Calculating Dev Spaces resource requirements^] for an example sizing guide.
+
+IMPORTANT: The following sections outline various ways you can install Dev Spaces. You can pick any one of the options to install the product and then proceed with the hands-on exercises in the rest of the learning path. If you want to practice all the different approaches, then follow the instructions in the uninstall section of this course to completely uninstall the product, and then proceed with exploring the other installation options.

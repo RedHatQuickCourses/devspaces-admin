@@ -1,1 +1,14 @@
-# GitOps
+= Installing Dev Spaces using OpenShift GitOps
+:navtitle: GitOps
+
+== Pre-requisites
+
+* 
+
+== Lab: Installing Dev Spaces using OpenShift GitOps
+
+. 
+
+== References
+
+* 

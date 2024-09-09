@@ -1,5 +1,5 @@
-= Installation Using the OpenShift Web Console (Operator based)
-:navtitle: Operator
+= Installation Using the OpenShift Web Console
+:navtitle: OpenShift Web Console
 
 Red Hat OpenShift Dev Spaces is available as an operator that can be installed using the OpenShift web console (_OperatorHub_).
 
