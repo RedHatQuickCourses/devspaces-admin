@@ -40,7 +40,7 @@ $ oc login -u admin _<OpenShift API URL>_
 $ oc apply -f gitops-operator.yaml
 ----
 +
-Wait for a few minutes while the GitOps operator is installed. Click on `Operartors > Installed Operators` and verify that the `Status` column for the `Red Hat OpenShift GitOps` operator says `Succeeded`.
+Wait for a few minutes while the GitOps operator is installed. Click on `Operators > Installed Operators` and verify that the `Status` column for the `Red Hat OpenShift GitOps` operator says `Succeeded`.
 +
 image::gitops-op-success.png[title=GitOps operator installed]
 
@@ -101,13 +101,13 @@ spec:
     - CreateNamespace=true
 ----
 
-<1> foo
-<2> bar
-<3> baz
-<4> qux
-<5> lol
-<6> lol
-<7> lol
+<1> Define a new ArgoCD Application
+<2> Metadata for Application - name (for display in ArgoCD dashboard) and namespace where Application resource will be created
+<3> Details of destination cluster
+<4> Path relative to root of Git repo. ArgoCD will only scan this path for changes and not the entire Git repository
+<5> Git repository URL
+<6> Indicates branch name in Git repository
+<7> Synchronization policy for ArgoCD. Here we ask ArgoCD to automatically track changes on the OpenShift cluster side and keep the configuration in sync with definition in Git repository. We also indicate that ArgoCD should prune (remove) resources that are no longer referenced in the Git repository
 
 . Apply the configuration to create a new ArgoCD application:
 +
