@@ -45,7 +45,7 @@
     <a class="nav-link" href="install.html">Install</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="operator.html">Operator</a>
+    <a class="nav-link" href="operator.html">OpenShift Web Console</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="cli.html">CLI</a>
@@ -146,6 +146,55 @@ The hands-on labs for this course have been tested on <strong>Red Hat OpenShift 
 </div>
 </div>
 <div class="sect1">
+<h2 id="_course_objectives"><a class="anchor" href="#_course_objectives"></a>Course Objectives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The overall objectives of this course include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Install, Upgrade and Uninstall Red Hat OpenShift Dev Spaces on OpenShift Container Platform</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Using the operator</p>
+</li>
+<li>
+<p>Using the <code>dsc</code> CLI</p>
+</li>
+<li>
+<p>Using OpenShift GitOps</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_course_prerequisites"><a class="anchor" href="#_course_prerequisites"></a>Course Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Basic knowledge of OpenShift (or Kubernetes) administration</p>
+</li>
+<li>
+<p>Knowledge of building Docker or Podman containers</p>
+</li>
+<li>
+<p>Deploying container images on OpenShift or Kubernetes</p>
+</li>
+<li>
+<p>OpenShift or Kubernetes User and Role administration</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_contributors"><a class="anchor" href="#_contributors"></a>Contributors</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -172,13 +221,13 @@ The hands-on labs for this course have been tested on <strong>Red Hat OpenShift 
 <div class="sect2">
 <h3 id="_for_red_hat_associates"><a class="anchor" href="#_for_red_hat_associates"></a>For Red Hat Associates</h3>
 <div class="paragraph">
-<p>Red Hat associates and others who have access to the Red Hat Demo Platform (RHDP) should use the <a href="https://demo.redhat.com/catalog?item=babylon-catalog-prod/sandboxes-gpte.ocp-wksp.prod" target="_blank" rel="noopener">Red Hat OpenShift Container Platform Cluster (AWS)</a> catalog item.</p>
+<p>Red Hat associates and others who have access to the Red Hat Demo Platform (RHDP) should use the <a href="https://demo.redhat.com/catalog?item=babylon-catalog-prod/sandboxes-gpte.sandbox-ocp.prod" target="_blank" rel="noopener">AWS with OpenShift Open Environment</a> catalog item.</p>
 </div>
 <div class="paragraph">
-<p>This classroom does <strong>NOT</strong> have Dev Spaces pre-installed. You install and configure a basic Dev Spaces instance, and then continue using this instance with other courses in the learning path.</p>
+<p>This classroom does <strong>NOT</strong> have Dev Spaces pre-installed. You install and configure a basic Dev Spaces instance in this course, and then continue using this instance with other courses in the learning path.</p>
 </div>
 <div class="paragraph">
-<p>Log in to RHDP and click <code>Order</code> to request a new OpenShift cluster. In the order page for the catalog item, do the following:</p>
+<p>Click the RHDP link above, log in to RHDP, and click <code>Order</code> to request a new OpenShift cluster. In the order page for the catalog item, do the following:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -192,7 +241,7 @@ The hands-on labs for this course have been tested on <strong>Red Hat OpenShift 
 <p><strong>Salesforce ID</strong>: If you have an opportunity ID, enter it into this field, otherwise select <code>Project</code>, and then enter "Learning about Dev Spaces" in the text field. You will see a warning message that a Salesforce ID is required, but you can safely ignore it</p>
 </li>
 <li>
-<p><strong>Features</strong>: Select <code>Enable Cert Manager</code>, <code>Enable OPEN Environment</code>, and <code>Enable Let&#8217;s Encrypt</code></p>
+<p><strong>Features</strong>: Select <code>Enable Let&#8217;s Encrypt</code></p>
 </li>
 <li>
 <p><strong>Region</strong>: Select the AWS region closest to your location</p>
@@ -205,6 +254,9 @@ The hands-on labs for this course have been tested on <strong>Red Hat OpenShift 
 </li>
 <li>
 <p><strong>OpenShift Version</strong>: <code>4.16</code> or higher</p>
+</li>
+<li>
+<p><strong>Control Plane Instance Type</strong>: <code>m6a.4xlarge</code></p>
 </li>
 </ul>
 </div>
@@ -245,41 +297,56 @@ You can also install Dev Spaces and run the hands-on labs using OpenShift Local,
 </div>
 </div>
 <div class="sect1">
-<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Basic knowledge of OpenShift (or Kubernetes) administration</p>
-</li>
-<li>
-<p>Knowledge of building Docker or Podman containers.</p>
-</li>
-<li>
-<p>Deploying container images on OpenShift or Kubernetes</p>
-</li>
-<li>
-<p>OpenShift or Kubernetes User and Role administration</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_objectives"><a class="anchor" href="#_objectives"></a>Objectives</h2>
+<h2 id="_configuring_openshift_users_and_authentication"><a class="anchor" href="#_configuring_openshift_users_and_authentication"></a>Configuring OpenShift Users and Authentication</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The overall objectives of this course include:</p>
+<p>Irrespective of how you provisioned your OpenShift cluster, you need to configure a user account with cluster-administrator access, as well as <strong>five</strong> non-cluster-administrator accounts (to simulate developers using Dev Spaces) for OpenShift.</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download and inspect the following two YAML configuration files, which create an <code>admin</code> user with cluster-administrator access and five non-admin users (<code>user1 - user5</code>). The password for both the <code>admin</code> and <code>user1 - user5</code> users is <code>openshift23</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Install, Upgrade and Uninstall Red Hat OpenShift Dev Spaces on OpenShift Container Platform</p>
+<p><a href="https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml" class="bare">https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml</a></p>
 </li>
 <li>
-<p>Perform basic configuration of Dev Spaces</p>
+<p><a href="https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml" class="bare">https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml</a></p>
 </li>
 </ul>
+</div>
+</li>
+<li>
+<p>Log in to the OpenShift cluster as the <code>kubeadmin</code> user using the <code>oc</code> CLI</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc login -u kubeadmin <em>&lt;OpenShift API URL&gt;</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the two configuration files</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc replace -f <strong>authentication.yaml</strong>
+$ oc apply -f <strong>secret.yaml</strong></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a log in prompt with the <code>htpasswd_provider</code> displayed.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/htpasswd-provider.png" alt="htpasswd provider">
+</div>
+<div class="title">Figure 1. Updated Log in Page</div>
+</div>
+</li>
+<li>
+<p>On the updated log in page, click the <code>htpasswd_provider</code> button, and log in as the <code>admin</code> user with password <code>openshift23</code> to access the OpenShift web console as a cluster administrator. Repeat the process for the <code>user1</code> user and verify that you can access the OpenShift web console as a regular non-admin user.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
