@@ -1,9 +1,65 @@
-= Installation Using the OpenShift Web Console (Operator based)
-:navtitle: Operator
+= Installation Using the OpenShift Web Console
+:navtitle: OpenShift Web Console
 
 Red Hat OpenShift Dev Spaces is available as an operator that can be installed using the OpenShift web console (_OperatorHub_).
 
+== Pre-requisites
+
+* You should have provisioned an OpenShift 4.16+ cluster as outlined the `Classroom Environment` section of the course home page. 
+* Download the OpenShift client `oc` for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
+* Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
+
 == Lab: Installing Dev Spaces Using the OpenShift Web Console
+
+. Log in as the `admin` user with cluster-administrator permissions. Create a new OpenShift project named *openshift-devspaces*. You will install the Dev Spaces operator and instance into this project.
++
+[subs=+quotes]
+----
+$ oc login -u admin _<OpenShift API URL>_
+$ oc create namespace openshift-devspaces
+----
++
+WARNING: The OpenShift web console will not allow you to create a new namespace/project starting with `openshift-`. You have to create the namespace using the `oc` CLI.
+
+. Log in to your OpenShift web console as the `admin` user with a password of `openshift23`.
+
+. Click `Operators > OperatorHub` in the left side navigation bar of the `Administrator` perspective in the OpenShift web console.
+
+. Search for `dev spaces` in the search field on this page, and then select the `Red Hat OpenShift Dev Spaces` operator.
++
+image::search-devspaces-operator.png[title=Search for the Dev Spaces Operator]
+
+. In the operator details page, select the `stable` channel and the latest `Version` of Dev Spaces (3.15 as of Sep 2024), and then click `Install`.
+
+. In the `Install Operator` page, leave all fields at their default value and only change the `Installed Namespace` field to `openshift-devspaces`. Click `Install` to proceed.
++
+image::change-devspaces-namespace.png[title=Change Namespace where Dev Spaces will be installed]
+
+. The operator will take a few minutes to install. Once complete, click on `View installed Operators in Namespace openshift-devspaces`. You should see two operators - `Dev Spaces` and its dependency `DevWorkspace` operator successfully installed.
++
+image::operator-success.png[title=Operator installed successfully]
+
+. Click `Red Hat OpenShift Dev Spaces instance Specification` in the `Provided APIs` column to create a new Dev Spaces instance from the installed operator. Click `Create CheCluster`.
+
+. In the `Create CheCluster` page, leave all values at defaults, and click `Create` to create a new Dev Spaces instance. You will accept the default configuration at this point and get a basic Dev Spaces instance up and running. You will progressively configure the instance in subsequent courses in the learning path.
+
+. Wait for a few minutes while the instance is created. Click the `devspaces` CheCluster resource and verify that the `Message` field says `None`, indicating that the instance was successfully initialized.
+
+. Click on the `Resources` tab and note the list of Kubernetes resources created. All the resources must have a `Status` of `Created`.
+
+. Switch back to the `Details` tab. Note the link to the Dev Spaces instance under the `Red Hat OpenShift Dev Spaces URL` field.
++
+image::devspaces-url.png[title=Dev Spaces URL]
+
+. Open the Dev Spaces URL link in a new tab. 
+.. Click `Log in with OpenShift`
+.. Click `htpasswd_provider`
+.. Log in as the `user1` user with a password of `openshift23`.
+.. Click `Allow selected permissions` to allow `user:full` permissions for this user.
+
+. After you log in, you will see the Dev Spaces `Create Workspace` page. You have successfully installed Dev Spaces.
++
+image::devspaces-home.png[title=Dev Spaces Home Page]
 
 == References
 

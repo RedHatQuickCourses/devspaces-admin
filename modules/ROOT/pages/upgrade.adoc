@@ -1,1 +1,16 @@
-# Upgrade
+= Upgrading Dev Spaces
+:navtitle: Upgrade
+
+Upgrading Dev Spaces depends on the approval mode you selected during the operator installation. If you selected `Automatic` mode, then you do not need any human intervention to upgrade. Whenever newer versions of the operator are available, they are fetched _automatically_ and upgraded.
+
+If you chose the `Manual` approval mode, then the OpenShift web console indicates that an upgrade is available in the `Operators > Installed Operators` page.
+
+image::upgrades-available.png[title=Upgrades Available for Dev Spaces]
+
+Click `Upgrade Available` for the Dev Spaces operator, and then click `Preview InstallPlan` to review the upgrade. You will see a list of resources that are available for upgrade. Click `Approve` to proceed with the upgrade.
+
+image::approve-upgrade.png[title=Approve Upgrades]
+
+== References
+
+* https://docs.openshift.com/container-platform/4.16/operators/admin/olm-upgrading-operators.html[Updating installed Operators in OpenShift^]
