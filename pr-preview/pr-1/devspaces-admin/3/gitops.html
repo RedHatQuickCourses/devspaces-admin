@@ -199,7 +199,7 @@ You will point the OpenShift GitOps configuration to fetch the operator configur
 </div>
 </div>
 <div class="paragraph">
-<p>Wait for a few minutes while the GitOps operator is installed. Click on <code>Operartors &gt; Installed Operators</code> and verify that the <code>Status</code> column for the <code>Red Hat OpenShift GitOps</code> operator says <code>Succeeded</code>.</p>
+<p>Wait for a few minutes while the GitOps operator is installed. Click on <code>Operators &gt; Installed Operators</code> and verify that the <code>Status</code> column for the <code>Red Hat OpenShift GitOps</code> operator says <code>Succeeded</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -296,31 +296,31 @@ spec:
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>foo</td>
+<td>Define a new ArgoCD Application</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>bar</td>
+<td>Metadata for Application - name (for display in ArgoCD dashboard) and namespace where Application resource will be created</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>baz</td>
+<td>Details of destination cluster</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>qux</td>
+<td>Path relative to root of Git repo. ArgoCD will only scan this path for changes and not the entire Git repository</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>lol</td>
+<td>Git repository URL</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>lol</td>
+<td>Indicates branch name in Git repository</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>lol
+<td>Synchronization policy for ArgoCD. Here we ask ArgoCD to automatically track changes on the OpenShift cluster side and keep the configuration in sync with definition in Git repository. We also indicate that ArgoCD should prune (remove) resources that are no longer referenced in the Git repository
 <div class="olist arabic">
 <ol class="arabic">
 <li>
