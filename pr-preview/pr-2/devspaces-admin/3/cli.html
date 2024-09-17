@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Installation of Dev Spaces using CLI Tools :: Red Hat OpenShift Dev Spaces Administration</title>
+    <link rel="prev" href="operator.html">
+    <link rel="next" href="gitops.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../..">Red Hat OpenShift Dev Spaces Administration</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/devspaces-admin/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="devspaces-admin" data-version="3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="install.html">Install</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operator.html">OpenShift Web Console</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="cli.html">CLI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gitops.html">GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="upgrade.html">Upgrade</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="remove.html">Uninstall</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="config.html">Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="che-cluster.html">CheCluster CR</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="image-puller.html">Image Puller</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="fuse-overlay.html">fuse-overlayfs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Red Hat OpenShift Dev Spaces Administration</span>
+    <span class="version">3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">Red Hat OpenShift Dev Spaces Administration</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></li>
+    <li><a href="install.html">Install</a></li>
+    <li><a href="cli.html">CLI</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Installation of Dev Spaces using CLI Tools</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are two ways you can install Dev Spaces using CLI tools. The first approach, using the <code>oc</code> CLI and YAML configuration files is for scenarios where you need fine-grained control over specific versions, and fine-tuning other related YAML configuration for your Dev Spaces deployment.</p>
+</div>
+<div class="paragraph">
+<p>The second approach, using the <code>dsc</code> CLI (Dev Spaces client), is for quickly getting an instance of Dev Spaces up and running with a single one-liner command. You can always customize the instance to your liking at a later stage using the <code>oc</code> CLI and the OpenShift web console.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation_using_the_oc_cli"><a class="anchor" href="#_installation_using_the_oc_cli"></a>Installation using the <code>oc</code> CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In scenarios where you need to install Dev Spaces using automated scripts, you can use the <code>oc</code> CLI tool and YAML configuration files to install and customize a Dev Spaces instance.</p>
+</div>
+<div class="sect2">
+<h3 id="_pre_requisites"><a class="anchor" href="#_pre_requisites"></a>Pre-requisites</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You should have provisioned an OpenShift 4.16+ cluster as outlined the <code>Classroom Environment</code> section of the course home page.</p>
+</li>
+<li>
+<p>Download the OpenShift client <code>oc</code> for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
+</li>
+<li>
+<p>Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lab_using_oc_cli_to_install_dev_spaces"><a class="anchor" href="#_lab_using_oc_cli_to_install_dev_spaces"></a>Lab: Using oc CLI to install Dev Spaces</h3>
+<div class="paragraph">
+<p>Using the <code>oc</code> CLI with YAML configuration files gives you more control and flexibility over how to install Dev Spaces. Whereas the web console and the <code>dsc</code> CLI is used to usually install the latest stable version of Dev Spaces, with this approach, you can install older versions, or specific product versions, and customize the OpenShift environment to fit your needs using the <code>oc</code> CLI approach.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If you have previously installed Dev Spaces using a different method, then run <strong>dsc server:delete --delete-all --delete-namespace -n openshift-devspaces</strong> as the <code>admin</code> user to completely remove the existing instance before you proceed with the installation.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Log in as the <code>admin</code> user with the <code>oc</code> CLI</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc login -u admin <em>&lt;OpenShift API URL&gt;</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Operators can be installed in two modes - <code>Automatic</code> and <code>Manual</code>. <code>Automatic</code> is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the configuration file at <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml</a>. This file can be used to install Dev Spaces in <code>Automatic</code> mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new <code>CheCluster</code> instance. The <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml</a> file is used to create a new <code>CheCluster</code> resource.</p>
+</li>
+<li>
+<p>For manual installation mode, inspect and download the two YAML configuration files below. The first file defines a new namespace for installing Dev Spaces, along with the operator subscription, operator group and related configuration to install a specific version (v3.14) of Dev Spaces. The second file defines a basic configuration for the <code>CheCluster</code> resource and creates an instance named <code>devspaces</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml</a></p>
+</li>
+<li>
+<p><a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Install the operator.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>oc apply -f manual-approval-operator.yaml</strong>
+namespace/openshift-devspaces created
+operatorgroup.operators.coreos.com/devspaces-operator-group created
+subscription.operators.coreos.com/devworkspace-operator created
+subscription.operators.coreos.com/openshift-devspaces created</pre>
+</div>
+</div>
+</li>
+<li>
+<p>You chose <code>Manual</code> approval for the operator installation, which means you need to log in to the OpenShift web console and <code>approve</code> the installation. You do not need to do this if you chose <code>Automatic</code> approval. Since we chose the manual approach, log in to the OpenShift web console as the <code>admin</code> user and click <code>Operators &gt; Installed Operators</code>. Select <code>openshift-devspaces</code> in the <code>Project</code> drop-down. Click <code>Upgrade Available</code> link for the <code>devspaces</code> operator.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/op-manual-upgrade.png" alt="op manual upgrade">
+</div>
+<div class="title">Figure 1. Approval Required for Manual Install Mode</div>
+</div>
+</li>
+<li>
+<p>In the <code>InstallPlan Details</code> page, click <code>Preview InstallPlan</code>. You should see a list of resource that will be created. Click <code>Approve</code> to proceed with the installation.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/install-plan-approve.png" alt="install plan approve">
+</div>
+<div class="title">Figure 2. Approve Install Plan</div>
+</div>
+</li>
+<li>
+<p>Alternatively, you can also approve the install plan on the CLI using the following <code>oc</code> CLI commands:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>oc get installplan -n openshift-devspaces</strong> # get the installplan name
+$ <strong>oc patch installplan \
+  <em>&lt;install_plan_name&gt;</em> \
+  --type json  \
+  --patch '[{"op": "add", "path": "/spec/approved", "value": true}]' \
+  -n openshift-devspaces</strong></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Switch back to the <code>Installed Operators</code> page, and notice that the operator status now shows as <code>Installing</code>. Wait and monitor the progress of the operators until the status shows as  <code>Succeeded</code>.</p>
+</li>
+<li>
+<p>Now that the operators are installed, create a <code>CheCluster</code> instance.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>oc apply -f checluster-cr.yaml</strong>
+checluster.org.eclipse.che/devspaces created</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Click <code>Operators &gt; Installed Operators</code> and then click <code>Red Hat OpenShift Dev Spaces instance Specification</code> in the <code>Provided APIs</code> column. You should see a new <code>CheCluster</code> instance named <code>devspaces</code>. Click <code>devspaces</code> in the <code>Name</code> column to view the details. Verify that the <code>ChePhase</code> field is marked <code>Active</code>, and the <code>Message</code> field is showing <code>None</code> (indicating a successful installation without errors). Note down the URL value in the <code>Red Hat OpenShift Dev Spaces URL</code> field.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/devspaces-instance-cli.png" alt="devspaces instance cli">
+</div>
+<div class="title">Figure 3. Dev Spaces instance created</div>
+</div>
+<div class="paragraph">
+<p>You can also fetch the dashboard URL using the <code>oc</code> CLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get checluster devspaces \
+  -n openshift-devspaces \
+  -o jsonpath='{.status.cheURL}'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Navigate to the URL in the <code>Red Hat OpenShift Dev Spaces URL</code> field, and log in as the <code>user1</code> to view the Dev Spaces dashboard.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation_using_the_dsc_cli"><a class="anchor" href="#_installation_using_the_dsc_cli"></a>Installation using the <code>dsc</code> CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While you can install Dev Spaces using the OpenShift <code>oc</code> CLI tool and YAML configuration files, Red Hat provides a convenient wrapper CLI tool called <strong>dsc</strong> (Dev Spaces client) to install and uninstall Dev Spaces.</p>
+</div>
+<div class="sect2">
+<h3 id="_pre_requisites_2"><a class="anchor" href="#_pre_requisites_2"></a>Pre-requisites</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You should have provisioned an OpenShift 4.16+ cluster as outlined the <code>Classroom Environment</code> section of the course home page.</p>
+</li>
+<li>
+<p>Download the OpenShift client <code>oc</code> for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
+</li>
+<li>
+<p>Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.</p>
+</li>
+<li>
+<p>Download the latest <code>dsc</code> tool for your operating system from <a href="https://developers.redhat.com/products/openshift-dev-spaces/download" class="bare">https://developers.redhat.com/products/openshift-dev-spaces/download</a>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Extract the archive file and copy the <code>dsc</code> directory to a suitable location in your workstation (<code>/usr/local</code> is a good choice).</p>
+</li>
+<li>
+<p>Add the <code>/usr/local/dsc/bin</code> folder to your operating system <code>PATH</code> environment variable</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lab_using_dsc_cli_to_install_dev_spaces"><a class="anchor" href="#_lab_using_dsc_cli_to_install_dev_spaces"></a>Lab: Using dsc CLI to install Dev Spaces</h3>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If you have previously installed Dev Spaces using a different method, then run <strong>dsc server:delete --delete-all --delete-namespace -n openshift-devspaces</strong> as the <code>admin</code> user to completely remove the existing instance before you proceed with the installation.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The <code>dsc</code> tool uses the log in context provided by the <code>oc</code> CLI tool to manage Dev Spaces instances. Log in as the <code>admin</code> user with the <code>oc</code> CLI before running <code>dsc</code>. Verify that you can execute the <code>dsc</code> binary file on your operating system.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc login -u admin <em>&lt;OpenShift API URL&gt;</em>
+$ dsc version
+dsc/3.15.0-CI darwin-arm64 node-v18.20.2</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the <code>dsc server --help</code> command to list some useful commands to manage Dev Spaces instances.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Create the <code>openshift-devspaces</code> namespace using the <code>oc</code> CLI as the <code>admin</code> user</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>oc create namespace openshift-devspaces</strong>
+namespace/openshift-devspaces created</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Doing a basic install of Dev Spaces with simple defaults is a one-line command. The command will take a few minutes to run and will show the status of the installation as it runs.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>dsc server:deploy -p openshift -n openshift-devspaces</strong>
+› Current Kubernetes context: 'default/api-cluster...'
+  ✔ Verify Kubernetes API...[1.29]
+  ✔ OpenShift version...[4.16]
+  ✔ Openshift preflight checklist
+    ✔ Verify if oc is installed...[OK]
+    ✔ Verify if openshift is running...[OK]
+  ✔ Create Namespace openshift-devspaces...[Exists]
+  ✔ Start following Red Hat OpenShift Dev Spaces installation logs...[OK]
+  ✔ Deploy Red Hat OpenShift Dev Spaces
+    ✔ Create Subscription devspaces-subscription...[Created]
+    ✔ Red Hat OpenShift Dev Spaces Operator pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Fetch CheCluster sample from a CSV...[OK]
+    ✔ Create CheCluster Custom Resource...[Created]
+  ✔ Wait for Red Hat OpenShift Dev Spaces ready
+    ✔ Devfile Registry pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Plugin Registry pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Dashboard pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Gateway pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Red Hat OpenShift Dev Spaces Server pod bootstrap
+      ✔ Scheduling...[OK]
+      ✔ Downloading images...[OK]
+      ✔ Starting...[OK]
+    ✔ Wait Red Hat OpenShift Dev Spaces active...[OK]
+  ✔ Retrieving Red Hat OpenShift Dev Spaces self-signed CA certificate...
+  ✔ Prepare post installation output...[OK]
+  ✔ Show important messages
+    ✔ Red Hat OpenShift Dev Spaces 3.15.0 has been successfully deployed.
+    ...
+Command server:deploy has completed successfully in 02:51.</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the <code>dsc server:deploy --help</code> command to list the full options to control the installation. In this course, we will configure a basic instance and then customize it using YAML configuration files.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>The previous command should print a lot of details about your Dev Spaces instance if installation was successful. You can also run the <code>dsc server:status</code> command to get the URL of the Dev Spaces dashboard</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>dsc server:status</strong>
+Red Hat OpenShift Dev Spaces Version    : 3.15.0
+Red Hat OpenShift Dev Spaces Url        : https://devspaces.apps.cluster-<strong>&lt;guid&gt;.&lt;guid&gt;</strong>.sandbox1152.opentlc.com/dashboard/</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#installing-devspaces-on-openshift-using-cli" target="_blank" rel="noopener">Installing Dev Spaces on OpenShift using CLI</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="operator.html">OpenShift Web Console</a></span>
+  <span class="next"><a href="gitops.html">GitOps</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
