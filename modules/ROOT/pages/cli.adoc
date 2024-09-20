@@ -79,6 +79,14 @@ checluster.org.eclipse.che/devspaces created
 . Click `Operators > Installed Operators` and then click `Red Hat OpenShift Dev Spaces instance Specification` in the `Provided APIs` column. You should see a new `CheCluster` instance named `devspaces`. Click `devspaces` in the `Name` column to view the details. Verify that the `ChePhase` field is marked `Active`, and the `Message` field is showing `None` (indicating a successful installation without errors). Note down the URL value in the `Red Hat OpenShift Dev Spaces URL` field.
 +
 image::devspaces-instance-cli.png[title=Dev Spaces instance created]
++
+You can also fetch the dashboard URL using the `oc` CLI:
++
+```bash
+$ oc get checluster devspaces \
+  -n openshift-devspaces \
+  -o jsonpath='{.status.cheURL}'
+```
 
 . Navigate to the URL in the `Red Hat OpenShift Dev Spaces URL` field, and log in as the `user1` to view the Dev Spaces dashboard.
 
@@ -168,8 +176,6 @@ $ *dsc server:deploy -p openshift -n openshift-devspaces*
     ...
 Command server:deploy has completed successfully in 02:51.
 ----
-+
-WARNING: `dsc` on macOS ARM64 *is not officially supported* as of Sep 2024. As a temporary workaround, execute *dsc server:deploy -p openshift -n openshift-devspaces  --skip-devworkspace-operator*. If the install still fails, try executing the client on Linux or Windows AMD64 based machines and see if the installation works.
 +
 TIP: Use the `dsc server:deploy --help` command to list the full options to control the installation. In this course, we will configure a basic instance and then customize it using YAML configuration files.
 

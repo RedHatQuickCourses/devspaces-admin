@@ -1,7 +1,10 @@
 = Upgrading Dev Spaces
 :navtitle: Upgrade
 
-Upgrading Dev Spaces depends on the approval mode you selected during the operator installation. If you selected `Automatic` mode, then you do not need any human intervention to upgrade. Whenever newer versions of the operator are available, they are fetched _automatically_ and upgraded.
+The Red Hat OpenShift Dev Spaces Operator supports two upgrade strategies:
+
+* Automatic - The Operator __automatically__ installs new updates when they become available.
+* Manual - New updates need to be __manually__ approved before installation begins.
 
 If you chose the `Manual` approval mode, then the OpenShift web console indicates that an upgrade is available in the `Operators > Installed Operators` page.
 
@@ -10,6 +13,14 @@ image::upgrades-available.png[title=Upgrades Available for Dev Spaces]
 Click `Upgrade Available` for the Dev Spaces operator, and then click `Preview InstallPlan` to review the upgrade. You will see a list of resources that are available for upgrade. Click `Approve` to proceed with the upgrade.
 
 image::approve-upgrade.png[title=Approve Upgrades]
+
+You can also upgrade Dev Spaces using the `dsc` client:
+
+```bash
+$ dsc server:update -n openshift-devspaces
+```
+
+NOTE: Run `dsc server:update --help` command to view the list of options. If you get timeout errors during the upgrade process, add the `--k8spodwaittimeout=1800000` flag to increase timeout values.  Run `dsc server:deploy --help` to see the flags for other timeout settings. 
 
 == References
 

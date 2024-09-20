@@ -1,0 +1,12 @@
+# Red Hat OpenShift Dev Spaces Configuration
+:navtitle: Configuration
+
+Configuration involves controlling multiple aspects Red Hat OpenShift Dev Spaces around security, resource management, storage management, networking and customizing workspaces tailored to the kinds of applications being developed. 
+
+In this section, we focus on tasks that are typically managed by Dev Spaces administrators and OpenShift administrators:
+
+* Configuring the `CheCluster` Custom Resource
+* Configuring the Kubernetes image puller to cache container images and speed up workspace start
+* Configuring the `fuse-overlayfs` storage driver for improved performance
+
+Other areas of administration, including storage, advanced workspace configuration, security, and network security related aspects are covered in a dedicated course targeting workspace configuration, at a later stage in the learning path.

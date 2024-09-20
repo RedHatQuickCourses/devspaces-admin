@@ -1,0 +1,206 @@
+= Configuring the fuse-overlayfs Storage Driver
+:navtitle: fuse-overlayfs
+
+By default, newly created workspaces that do not specify a __devfile__ will use the **Universal Developer Image (UDI)** container image.
+
+The __Universal Developer Image (UDI)__ container image has `Podman` and `Buildah` tools pre-installed, which you can use to build and push container images within a workspace. However, Podman and Buildah in the UDI are configured to use the `vfs` storage driver which does not provide copy-on-write semantics in the workspace file system. For more efficient image management and better performance, you can configure the `fuse-overlayfs` storage driver, which supports copy-on-write semantics.
+
+There are two ways you can enable `fuse-overlayfs` in Dev Spaces for improved performance:
+
+* For workspaces that are already provisioned, and belonging to certain users
+* For all user workspaces within the cluster
+
+== Lab: Enabling fuse-overlayfs for Specific Workspaces
+
+In this hands-on lab, you will enable the `fuse-overlayfs` storage driver for an already existing workspace.
+
+. Log in to Dev Spaces dashboard as the `user1` user. Launch a new `Node.js Express` workspace from the dashboard.
+
+. Once the IDE loads fully, launch a new terminal by expanding the hamburger menu (three vertical bars), and then click `Terminal > New Terminal`
++
+image::launch-new-terminal.png[title=Launch a new terminal in Workspace]
+
+. Verify that by default, the `vfs` storage driver is used.
++
+[source,bash,subs=+quotes]
+----
+web-nodejs-sample $ *podman info | grep graphDriver*
+__graphDriverName: vfs__
+----
+
+. Before enabling the `fuse-overlayfs` driver, you need to enable the `/dev/fuse` device for the workspace. Start off by using the `oc` client and log in as the `admin` user. List the workspaces for `user1`.
++
+[source,bash,subs=+quotes]
+----
+$ *oc login -u admin* __<OpenShift API URL>__
+$ *oc get devworkspace -n user1-devspaces*
+__NAME             DEVWORKSPACE ID             PHASE     INFO
+nodejs-web-app   workspacee69523816d5c43c8   Running   https://...__
+----
+
+. Patch the `nodejs-web-app` workspace to enable the `/dev/fuse` device.
++
+[source,bash,subs=+quotes]
+----
+$ oc patch devworkspace nodejs-web-app -n user1-devspaces \
+  --patch '{"spec":{"template":{"attributes":{"pod-overrides":{"metadata":{"annotations":{"io.kubernetes.cri-o.Devices":"/dev/fuse"}}}}}}}' \
+  --type=merge
+devworkspace.workspace.devfile.io/nodejs-web-app patched
+----
+
+. Verify that the `/dev/fuse` device now exists in the workspace
++
+[source,bash,subs=+quotes]
+----
+$ stat /dev/fuse
+File: /dev/fuse
+Size: 0  Blocks: 0 IO Block: 4096 character special file
+Device: ...
+Access: ...
+----
++
+If, however, you see:
++
+[source,bash,subs=+quotes]
+----
+stat: cannot statx '/dev/fuse': No such file or directory
+----
++
+It means that the /dev/fuse device is not enabled, and the `fuse-overlayfs` storage driver will not work. Check that you have run the commands correctly as outlined in previous steps.
+
+. Next, to enable the `fuse-overlayfs` storage driver, inspect the contents of the `~/.config/containers/storage.conf` file, and note that Podman and Buildah in the workspace is configured to use the `vfs` driver by default:
++
+[source,bash,subs=+quotes]
+----
+web-nodejs-sample $ cat ~/.config/containers/storage.conf
+[storage]
+driver = "vfs"
+----
+
+. Edit the `~/.config/containers/storage.conf` file inside the workspace and make the following changes (Use the `vi` or `vim` editor to make the changes):
++
+[source,bash,subs=+quotes]
+----
+[storage]
+driver = "overlay"
+
+[storage.options.overlay]
+mount_program="/usr/bin/fuse-overlayfs" 
+----
+
+. Delete some cached files using the old `vfs` driver
++
+[source,bash,subs=+quotes]
+----
+web-nodejs-sample $ rm -rf  ~/.local/share/containers/storage
+----
+
+. Verify that the `fuse-overlayfs` storage driver is in use
++
+[source,bash,subs=+quotes]
+----
+web-nodejs-sample $ podman info | grep overlay
+graphDriverName: overlay
+overlay.mount_program:
+  Executable: /usr/bin/fuse-overlayfs
+  Package: fuse-overlayfs-1.13-1.module+el8.10.0+22202+761b9a65.x86_64
+  fuse-overlayfs: version 1.13-dev
+  Backing Filesystem: overlayfs
+----
+
+You have now enabled the `fuse-overlayfs` storage driver in a running workspace. The manual steps to enable it are not optimal at scale. You need to enable the driver globally for all workspaces. One way to approach this, is to build a custom image and make all the configuration changes needed for the `fuse-overlayfs` storage driver. Another approach is to configure this globally in the `CheCluster` CR configuration so that all workspaces launched by users have this driver enabled by default. You will do so in the next lab.
+
+== Lab: Enabling fuse-overlayfs for all Workspaces
+
+In this hands-on lab, you will enable the `fuse-overlayfs` storage driver for all workspaces in the OpenShift cluster. You do this by creating a ConfigMap resource for the `storage.conf` file, and then mounting this configuration file (which enables the `fuse-overlayfs` storage driver) inside containers running in the workspace.
+
+. Log in to OpenShift as the `admin` user using the `oc`client
++
+[source,bash,subs=+quotes]
+----
+$ *oc login -u admin* __<OpenShift API URL>__
+----
+
+. Create a ConfigMap resource file named `fuse-overlayfs.yaml` that mounts the `storage.conf` file into containers running in a workspace:
++
+[source,yaml,subs=+quotes]
+----
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: fuse-overlay
+  namespace: openshift-devspaces
+  labels: <1>
+    app.kubernetes.io/part-of: che.eclipse.org
+    app.kubernetes.io/component: workspaces-config
+  annotations: <2>
+    controller.devfile.io/mount-as: subpath
+    controller.devfile.io/mount-path: /home/user/.config/containers/
+data: <3>
+  storage.conf: |
+    [storage]
+    driver = "overlay"
+
+    [storage.options.overlay]
+    mount_program="/usr/bin/fuse-overlayfs"
+----
++
+<1> Labels to indicate that this configuration is related to workspace configuration
+<2> Annotations indicating the path inside the container where the storage.conf file must be mounted
+<3> The actual storage.conf configuration file contents
+
+. Create the ConfigMap
++
+[source,bash,subs=+quotes]
+----
+$ oc apply -f fuse-overlayfs.yaml
+__configmap/fuse-overlay created__
+----
+
+. Edit the `devspaces` CheCluster instance (using the command `oc edit checluster/devspaces -n openshift-devspaces`) and enable the `/dev/fuse` device for all containers in workspaces, by adding the following:
++
+[source,yaml,subs=+quotes]
+----
+kind: CheCluster
+apiVersion: org.eclipse.che/v2
+spec:
+  *devEnvironments:
+    workspacesPodAnnotations:
+      io.kubernetes.cri-o.Devices: /dev/fuse*
+----
+
+. Log in as the `user1` user and launch an empty workspace from the dashboard. Launch a new terminal in the web IDE and first verify that the `/dev/fuse` device exists
++
+[source,bash,subs=+quotes]
+----
+$ *stat /dev/fuse*
+File: /dev/fuse
+Size: ...
+Device: 700078h/7340152d...
+...
+----
+
+. Verify that the `storage.conf` configuration you provided in the ConfigMap is mounted inside the workspace
++
+[source,bash,subs=+quotes]
+----
+$ *cat ~/.config/containers/storage.conf*
+[storage]
+driver = "overlay"
+
+[storage.options.overlay]
+mount_program="/usr/bin/fuse-overlayfs"
+----
+
+. Verify that the `fuse-overlayfs` storage driver is in use
++
+[source,bash,subs=+quotes]
+----
+$ *podman info | grep overlay*
+graphDriverName: overlay
+overlay.mount_program:
+  Executable: /usr/bin/fuse-overlayfs
+  Package: fuse-overlayfs-1.13-1.module+el8.10.0+22202+761b9a65.x86_64
+  fuse-overlayfs: version 1.13-dev
+  Backing Filesystem: overlayfs
+----
