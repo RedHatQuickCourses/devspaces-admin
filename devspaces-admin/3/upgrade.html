@@ -62,6 +62,21 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="remove.html">Uninstall</a>
   </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="config.html">Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="che-cluster.html">CheCluster CR</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="image-puller.html">Image Puller</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="fuse-overlay.html">fuse-overlayfs</a>
+  </li>
+</ul>
+  </li>
 </ul>
   </li>
 </ul>
@@ -106,7 +121,17 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Upgrading Dev Spaces depends on the approval mode you selected during the operator installation. If you selected <code>Automatic</code> mode, then you do not need any human intervention to upgrade. Whenever newer versions of the operator are available, they are fetched <em>automatically</em> and upgraded.</p>
+<p>The Red Hat OpenShift Dev Spaces Operator supports two upgrade strategies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Automatic - The Operator <em>automatically</em> installs new updates when they become available.</p>
+</li>
+<li>
+<p>Manual - New updates need to be <em>manually</em> approved before installation begins.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>If you chose the <code>Manual</code> approval mode, then the OpenShift web console indicates that an upgrade is available in the <code>Operators &gt; Installed Operators</code> page.</p>
@@ -125,6 +150,26 @@
 <img src="_images/approve-upgrade.png" alt="approve upgrade">
 </div>
 <div class="title">Figure 2. Approve Upgrades</div>
+</div>
+<div class="paragraph">
+<p>You can also upgrade Dev Spaces using the <code>dsc</code> client:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ dsc server:update -n openshift-devspaces</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Run <code>dsc server:update --help</code> command to view the list of options. If you get timeout errors during the upgrade process, add the <code>--k8spodwaittimeout=1800000</code> flag to increase timeout values.  Run <code>dsc server:deploy --help</code> to see the flags for other timeout settings.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

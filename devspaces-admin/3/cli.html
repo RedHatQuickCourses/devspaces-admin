@@ -62,6 +62,21 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="remove.html">Uninstall</a>
   </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="config.html">Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="che-cluster.html">CheCluster CR</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="image-puller.html">Image Puller</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="fuse-overlay.html">fuse-overlayfs</a>
+  </li>
+</ul>
+  </li>
 </ul>
   </li>
 </ul>
@@ -242,6 +257,16 @@ checluster.org.eclipse.che/devspaces created</pre>
 </div>
 <div class="title">Figure 3. Dev Spaces instance created</div>
 </div>
+<div class="paragraph">
+<p>You can also fetch the dashboard URL using the <code>oc</code> CLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get checluster devspaces \
+  -n openshift-devspaces \
+  -o jsonpath='{.status.cheURL}'</code></pre>
+</div>
+</div>
 </li>
 <li>
 <p>Navigate to the URL in the <code>Red Hat OpenShift Dev Spaces URL</code> field, and log in as the <code>user1</code> to view the Dev Spaces dashboard.</p>
@@ -383,18 +408,6 @@ namespace/openshift-devspaces created</pre>
     ...
 Command server:deploy has completed successfully in 02:51.</pre>
 </div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<code>dsc</code> on macOS ARM64 <strong>is not officially supported</strong> as of Sep 2024. As a temporary workaround, execute <strong>dsc server:deploy -p openshift -n openshift-devspaces  --skip-devworkspace-operator</strong>. If the install still fails, try executing the client on Linux or Windows AMD64 based machines and see if the installation works.
-</td>
-</tr>
-</table>
 </div>
 <div class="admonitionblock tip">
 <table>
