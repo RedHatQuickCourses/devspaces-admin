@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Installing Dev Spaces Using OpenShift GitOps :: Red Hat OpenShift Dev Spaces Administration</title>
+    <link rel="prev" href="cli.html">
+    <link rel="next" href="upgrade.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../..">Red Hat OpenShift Dev Spaces Administration</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/devspaces-admin/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="devspaces-admin" data-version="3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="install.html">Install</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operator.html">OpenShift Web Console</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="cli.html">CLI</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="gitops.html">GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="upgrade.html">Upgrade</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="remove.html">Uninstall</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="config.html">Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="che-cluster.html">CheCluster CR</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="image-puller.html">Image Puller</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="fuse-overlay.html">fuse-overlayfs</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Red Hat OpenShift Dev Spaces Administration</span>
+    <span class="version">3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">Red Hat OpenShift Dev Spaces Administration</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></li>
+    <li><a href="install.html">Install</a></li>
+    <li><a href="gitops.html">GitOps</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Installing Dev Spaces Using OpenShift GitOps</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>For managing multiple operators with complex customization and configuration, the <strong>GitOps</strong> approach is recommended to simplify configuration management, and provide traceability and auditing. You maintain the operator configuration, along with other cluster resources needed for the operator to work in a Git repository, and a product like <strong>OpenShift GitOps</strong> (based on the open source ArgoCD project) keeps track of the Git repository and applies the changes automatically to the cluster without manual intervention.</p>
+</div>
+<div class="paragraph">
+<p>In this section, you will install OpenShift GitOps, and then store the Dev Spaces operator and Workspace configuration in a separate Git repository. You will create a GitOps <strong>Application</strong> for Dev Spaces and let GitOps install the product on the cluster.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pre_requisites"><a class="anchor" href="#_pre_requisites"></a>Pre-requisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>You should have provisioned an OpenShift 4.16+ cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
+</li>
+<li>
+<p>Download the OpenShift client <code>oc</code> for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
+</li>
+<li>
+<p>Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.</p>
+</li>
+<li>
+<p>Download the latest <code>dsc</code> tool for your operating system from <a href="https://developers.redhat.com/products/openshift-dev-spaces/download" class="bare">https://developers.redhat.com/products/openshift-dev-spaces/download</a>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Extract the archive file and copy the <code>dsc</code> directory to a suitable location in your workstation (<code>/usr/local</code> is a good choice).</p>
+</li>
+<li>
+<p>Add the <code>/usr/local/dsc/bin</code> folder to your operating system <code>PATH</code> environment variable.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_installing_dev_spaces_using_openshift_gitops"><a class="anchor" href="#_lab_installing_dev_spaces_using_openshift_gitops"></a>Lab: Installing Dev Spaces using OpenShift GitOps</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If you have previously installed Dev Spaces using a different method, then run <strong>dsc server:delete --delete-all --delete-namespace -n openshift-devspaces</strong> as the <code>admin</code> user to completely remove the existing instance before you proceed with the installation.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You will install OpenShift GitOps first. Consult the links in the references section to get an understanding of how GitOps is installed and can be used to manage the operator lifecycle. In this lab, you will install the OpenShift GitOps operator using the <code>oc</code> CLI.</p>
+</li>
+<li>
+<p>Fork the Git repository <a href="https://github.com/RedHatQuickCourses/devspaces-apps.git" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps.git</a> to your own Git account (GitHub or GitLab should work fine).</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You will point to the OpenShift GitOps configuration to fetch the operator configuration from this forked Git repository. If you fail to point the GitOps configuration to your forked repository, then the configuration from the upstream <code>RedHatQuickCourses</code> repository will be applied and may break your Dev Spaces instance!
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Log in to the OpenShift cluster as the <code>admin</code> user (user with cluster administrator permissions) using the <code>oc</code> CLI.</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc login -u admin <em>&lt;OpenShift API URL&gt;</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Download and inspect the <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml</a> file from your forked repository. This configuration is used to install the OpenShift GitOps operator (For simplicity&#8217;s sake, we install it in <code>Automatic</code> approval mode).</p>
+</li>
+<li>
+<p>Apply the configuration to install OpenShift GitOps</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc apply -f gitops-operator.yaml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wait for a few minutes while the GitOps operator is installed. Click on <code>Operators &gt; Installed Operators</code> and verify that the <code>Status</code> column for the <code>Red Hat OpenShift GitOps</code> operator says <code>Succeeded</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitops-op-success.png" alt="gitops op success">
+</div>
+<div class="title">Figure 1. GitOps operator installed</div>
+</div>
+</li>
+<li>
+<p>After the installation finishes, the OpenShift web console will inform you that you need to refresh the web console. Do so, and you will now see a new application shortcut to the OpenShift GitOps dashboard.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/new-argocd-link.png" alt="new argocd link">
+</div>
+<div class="title">Figure 2. New ArgoCD Dashboard Link</div>
+</div>
+</li>
+<li>
+<p>Click the <code>Cluster ArgoCD</code> link. You will be shown the ArgoCD login page. A random password has been automatically generated for you by the operator. To get the password, run the following <code>oc</code> command:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc extract secret/openshift-gitops-cluster -n openshift-gitops --to=-
+<em>long password</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Copy the password for the next step.</p>
+</div>
+</li>
+<li>
+<p>Log in to ArgoCD as the user <code>admin</code> with the password extracted from the previous step.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/argocd-login.png" alt="argocd login">
+</div>
+<div class="title">Figure 3. ArgoCD Login Page</div>
+</div>
+</li>
+<li>
+<p>After you log in you should see the ArgoCD dashboard page with no ArgoCD applications installed. Before you create a new ArgoCD application, you need to provide permissions to the ArgoCD controller running in the <code>openshift-gitops</code> namespace to create resources in the <code>openshift-devspaces</code> namespace. The easiest way to do this is to provide <code>cluster-admin</code> role to the service account running the controller. Run the following command as a cluster administrator user:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc adm policy add-cluster-role-to-user cluster-admin \
+    system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller
+<em>clusterrole.rbac.authorization.k8s.io/cluster-admin added...</em></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Failure to assign proper roles to the controller service account will result in deployment failures for applications.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Download and inspect the operator installation YAML configuration file at <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-config/devspaces/00-devspaces-operator-cli.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-config/devspaces/00-devspaces-operator-cli.yaml</a>. It is mostly similar to the configuration used in the previous section with some extra annotations for ArgoCD. Note the <code>argocd.argoproj.io/sync-wave</code> and <code>argocd.argoproj.io/managed-by</code> annotations. Note that we want to install Dev Spaces in <code>Automatic</code> approval mode to avoid manual intervention.</p>
+</li>
+<li>
+<p>Download and inspect the YAML configuration file at <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/devspaces-argo-app.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/devspaces-argo-app.yaml</a> to create a new ArgoCD application for Dev Spaces installation and configuration:</p>
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: argoproj.io/v1alpha1
+kind: Application <i class="conum" data-value="1"></i><b>(1)</b>
+metadata: <i class="conum" data-value="2"></i><b>(2)</b>
+  name: devspaces-config
+  namespace: openshift-gitops
+spec:
+  destination: <i class="conum" data-value="3"></i><b>(3)</b>
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops-config/devspaces <i class="conum" data-value="4"></i><b>(4)</b>
+    repoURL: https://github.com/your_username/devspaces-apps.git <i class="conum" data-value="5"></i><b>(5)</b>
+    targetRevision: main <i class="conum" data-value="6"></i><b>(6)</b>
+  syncPolicy: <i class="conum" data-value="7"></i><b>(7)</b>
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true</pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Define a new ArgoCD Application</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Metadata for Application - name (for display in ArgoCD dashboard) and namespace where Application resource will be created</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Details of destination cluster</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Path relative to root of Git repo. ArgoCD will only scan this path for changes and not the entire Git repository</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Git repository URL</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Indicates branch name in Git repository</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Synchronization policy for ArgoCD. Here we ask ArgoCD to automatically track changes on the OpenShift cluster side and keep the configuration in sync with definition in Git repository. We also indicate that ArgoCD should prune (remove) resources that are no longer referenced in the Git repository</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Apply the configuration to create a new ArgoCD application:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc apply -f devspaces-argo-app.yaml
+<em>application.argoproj.io/devspaces-config created</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Observe the ArgoCD dashboard. You will initially see the status as <code>OutOfSync</code> while ArgoCD downloads and applies the configuration stored in the Git repository. Once all the declared resources are created, you should see the status as <code>Healthy</code> and <code>Synced</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/argo-sync-healthy.png" alt="argo sync healthy">
+</div>
+<div class="title">Figure 4. ArgoCD Healthy/Synced status</div>
+</div>
+</li>
+<li>
+<p>Click on the <code>devspaces-config</code> card to view the details of the resources created by ArgoCD. You can get a high-level overview of the different operators and resources that were created and explore errors (if any).</p>
+</li>
+<li>
+<p>Log in to the OpenShift web console as the <code>admin</code> user and navigate to <code>Operators &gt; Installed Operators</code> page. Note that the Dev Spaces operator <code>Status</code> field is marked as <code>Succeeded</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/argo-ds-op-success.png" alt="Successful install of Dev Spaces using GitOps">
+</div>
+</div>
+</li>
+<li>
+<p>Click on <code>Red Hat OpenShift Dev Spaces instance Specification</code> and notice that a new <code>CheCluster</code> instance called <code>devspaces</code> is created exactly as defined in your Git repository.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/checluster-yaml.png" alt="CheCluster YAML Configuration">
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the <code>Red Hat OpenShift Dev Spaces URL</code> field is populated and shows a valid URL. Click on the URL to open the Dev Spaces dashboard. You can also verify that the installation was successful by using the <code>dsc</code> CLI:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ dsc server:status
+<em>Red Hat OpenShift Dev Spaces Version: 3.15.0
+Red Hat OpenShift Dev Spaces Url : https://devspaces.apps.cluster...</em></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.13/html-single/installing_gitops/index#installing-openshift-gitops" target="_blank" rel="noopener">Install OpenShift GitOps</a></p>
+</li>
+<li>
+<p><a href="https://blog.stderr.at/openshift/2023/03/operator-installation-with-argo-cd" target="_blank" rel="noopener">Operator installation with ArgoCD</a></p>
+</li>
+<li>
+<p><a href="https://www.stakater.com/post/managing-openshift-operators-lifecycle-with-argo-cd" target="_blank" rel="noopener">Managing OpenShift Operators Lifecycle with Argo CD</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="cli.html">CLI</a></span>
+  <span class="next"><a href="upgrade.html">Upgrade</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
