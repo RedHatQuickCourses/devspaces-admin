@@ -12,15 +12,15 @@ This course is the `second` in a series of `five` courses about Red Hat OpenShif
 . Creating and Customizing Workspaces in Red Hat OpenShift Dev Spaces (_Under Development_)
 . Configuring Plugins in Red Hat OpenShift Dev Spaces (_Under Development_)
 
-This course covers the install, updates and uninstall process for Red Hat OpenShift Dev Spaces.
+This course covers the install, updates, and uninstall process for Red Hat OpenShift Dev Spaces.
 
-NOTE: The hands-on labs for this course have been tested on *Red Hat OpenShift Dev Spaces 3.16*. The labs should mostly work in minor update releases of Dev Spaces. If you encounter any issues, please open a GitHub issue in the course repository.
+NOTE: The hands-on labs for this course have been tested on *Red Hat OpenShift Dev Spaces 3.16*. The labs should mostly work on minor update releases of Dev Spaces. If you encounter any issues, please open a GitHub issue in the course repository.
 
 == Course Objectives
 
 The overall objectives of this course include:
 
-* Install, Upgrade and Uninstall Red Hat OpenShift Dev Spaces on OpenShift Container Platform
+* Install, Upgrade, and Uninstall Red Hat OpenShift Dev Spaces on the OpenShift Container Platform
 ** Using the operator
 ** Using the `dsc` CLI
 ** Using OpenShift GitOps
@@ -30,7 +30,7 @@ The overall objectives of this course include:
 * Basic knowledge of OpenShift (or Kubernetes) administration
 * Knowledge of building Docker or Podman containers
 * Deploying container images on OpenShift or Kubernetes
-* OpenShift or Kubernetes User and Role administration
+* OpenShift or Kubernetes User and Role Administration
 
 == Contributors
 
@@ -50,11 +50,11 @@ Red Hat associates and others who have access to the Red Hat Demo Platform (RHDP
 
 This classroom does *NOT* have Dev Spaces pre-installed. You install and configure a basic Dev Spaces instance in this course, and then continue using this instance with other courses in the learning path.
 
-Click the RHDP link above, log in to RHDP, and click `Order` to request a new OpenShift cluster. In the order page for the catalog item, do the following:
+Click the RHDP link above, log in to RHDP, and click `Order` to request a new OpenShift cluster. On the order page for the catalog item, do the following:
 
 * *Activity*: Select `Practice/Enablement`
 * *Purpose*: Select `Learning about the Product`
-* *Salesforce ID*: If you have an opportunity ID, enter it into this field, otherwise select `Project`, and then enter "Learning about Dev Spaces" in the text field. You will see a warning message that a Salesforce ID is required, but you can safely ignore it
+* *Salesforce ID*: If you have an opportunity ID, enter it into this field, otherwise select `Project`, and then enter "Learning about Dev Spaces" in the text field. You will see a warning message that a Salesforce ID is required, but you can safely ignore it.
 * *Features*: Select `Enable Let's Encrypt`
 * *Region*: Select the AWS region closest to your location
 * *User count*: `1`
@@ -64,7 +64,7 @@ Click the RHDP link above, log in to RHDP, and click `Order` to request a new Op
 
 Select the checkbox at the bottom of the page to confirm that lab costs will be charged to your cost center, and click `Order`.
 
-NOTE: The lab environment will take an hour to provision. You can check the status and details of the OpenShift cluster from the `Services` page of RHDP. The classroom is available for 48 hours initially. You can extend the duration of classroom availability by clicking `Help > Get Technical Help` in RHDP, and then requesting for an extension by opening a ServiceNow ticket with the RHDP team.
+NOTE: The lab environment will take an hour to provision. You can check the status and details of the OpenShift cluster from the `Services` page of RHDP. The classroom is available for 48 hours initially. You can extend the duration of classroom availability by clicking `Help > Get Technical Help` in RHDP, and then requesting an extension by opening a ServiceNow ticket with the RHDP team.
 
 === For Red Hat Partners
 
@@ -96,8 +96,10 @@ $ oc replace -f *authentication.yaml*
 $ oc apply -f *secret.yaml*
 ----
 +
-Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a log in prompt with the `htpasswd_provider` displayed.
+Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a login prompt with the `htpasswd_provider` displayed.
 +
 image::htpasswd-provider.png[title=Updated Log in Page]
 
-. On the updated log in page, click the `htpasswd_provider` button, and log in as the `admin` user with password `openshift23` to access the OpenShift web console as a cluster administrator. Repeat the process for the `user1` user and verify that you can access the OpenShift web console as a regular non-admin user.
+. On the updated login page, click the `htpasswd_provider` button, and log in as the `admin` user with password `openshift23` to access the OpenShift web console as a cluster administrator. Repeat the process for the `user1` user and verify that you can access the OpenShift web console as a regular non-admin user.
+
+// Just one question - Should this "Configuring OpenShift Users and Authentication" be on a seperate page than on the landing page? I mean, ideally, landing page should only have a short description, objectives, pre-requisites, and similar stuff.

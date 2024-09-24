@@ -10,7 +10,7 @@ CLI::
 You can install Dev Spaces using the Dev Spaces client (`dsc`), or the OpenShift client (`oc`) CLI.
 
 GitOps::
-You can automate the installation, configuration and maintenance of the Dev Spaces instance using **OpenShift GitOps**. You maintain a set of YAML configuration files in a Git repository, and OpenShift GitOps tracks the changes in this repository and applies the changes automatically to the OpenShift cluster.
+You can automate the installation, configuration, and maintenance of the Dev Spaces instance using **OpenShift GitOps**. You maintain a set of YAML configuration files in a Git repository, and OpenShift GitOps tracks the changes in this repository and applies the changes automatically to the OpenShift cluster.
 
 The following sections will cover these options in more detail.
 

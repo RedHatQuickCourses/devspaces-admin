@@ -169,7 +169,7 @@ spec:
       io.kubernetes.cri-o.Devices: /dev/fuse*
 ----
 
-. Log in as the `user1` user and launch an empty workspace from the dashboard. Launch a new terminal in the web IDE and first verify that the `/dev/fuse` device exists
+. Log in as the `user1` user and launch an empty workspace from the dashboard. Launch a new terminal in the web IDE and first verify that the `/dev/fuse` device exists.
 +
 [source,bash,subs=+quotes]
 ----
