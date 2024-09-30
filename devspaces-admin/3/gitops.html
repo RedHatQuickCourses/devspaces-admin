@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Installing Dev Spaces using OpenShift GitOps :: Red Hat OpenShift Dev Spaces Administration</title>
+    <title>Installing Dev Spaces Using OpenShift GitOps :: Red Hat OpenShift Dev Spaces Administration</title>
     <link rel="prev" href="cli.html">
     <link rel="next" href="upgrade.html">
     <meta name="generator" content="Antora 3.1.3">
@@ -118,7 +118,7 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Installing Dev Spaces using OpenShift GitOps</h1>
+<h1 class="page">Installing Dev Spaces Using OpenShift GitOps</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -135,10 +135,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p>You should have provisioned an OpenShift 4.16+ cluster as outlined the <code>Classroom Environment</code> section of the course home page.</p>
+<p>You should have provisioned an OpenShift 4.16+ cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
 </li>
 <li>
-<p>Download the OpenShift client <code>oc</code> for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
+<p>Download the OpenShift client <code>oc</code> for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
 </li>
 <li>
 <p>Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.</p>
@@ -151,7 +151,7 @@
 <p>Extract the archive file and copy the <code>dsc</code> directory to a suitable location in your workstation (<code>/usr/local</code> is a good choice).</p>
 </li>
 <li>
-<p>Add the <code>/usr/local/dsc/bin</code> folder to your operating system <code>PATH</code> environment variable</p>
+<p>Add the <code>/usr/local/dsc/bin</code> folder to your operating system <code>PATH</code> environment variable.</p>
 </li>
 </ul>
 </div>
@@ -189,7 +189,7 @@ If you have previously installed Dev Spaces using a different method, then run <
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-You will point the OpenShift GitOps configuration to fetch the operator configuration from this forked Git repository. If you fail to point the GitOps configuration to the your forked repository, then the configuration from the upstream <code>RedHatQuickCourses</code> repository will be applied and may break your Dev Spaces instance!
+You will point to the OpenShift GitOps configuration to fetch the operator configuration from this forked Git repository. If you fail to point the GitOps configuration to your forked repository, then the configuration from the upstream <code>RedHatQuickCourses</code> repository will be applied and may break your Dev Spaces instance!
 </td>
 </tr>
 </table>
@@ -204,7 +204,7 @@ You will point the OpenShift GitOps configuration to fetch the operator configur
 </div>
 </li>
 <li>
-<p>Download and inspect the <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml</a> file from your forked repository. This configuration is used to install the OpenShift GitOps operator (For simplicity sake, we install it in <code>Automatic</code> approval mode).</p>
+<p>Download and inspect the <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml</a> file from your forked repository. This configuration is used to install the OpenShift GitOps operator (For simplicity&#8217;s sake, we install it in <code>Automatic</code> approval mode).</p>
 </li>
 <li>
 <p>Apply the configuration to install OpenShift GitOps</p>
@@ -224,7 +224,7 @@ You will point the OpenShift GitOps configuration to fetch the operator configur
 </div>
 </li>
 <li>
-<p>After the installation finishes, the OpenShift web console will inform you that you need to refresh the web console. Do so, and you will now see a new application shortcut to the OpenShift GitOps dashboard</p>
+<p>After the installation finishes, the OpenShift web console will inform you that you need to refresh the web console. Do so, and you will now see a new application shortcut to the OpenShift GitOps dashboard.</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/new-argocd-link.png" alt="new argocd link">
@@ -233,7 +233,7 @@ You will point the OpenShift GitOps configuration to fetch the operator configur
 </div>
 </li>
 <li>
-<p>Click the <code>Cluster ArgoCD</code> link. You will be shown the ArgoCD log in page. A random password has been automatically generated for you by the operator. To get the password, run the following <code>oc</code> command:</p>
+<p>Click the <code>Cluster ArgoCD</code> link. You will be shown the ArgoCD login page. A random password has been automatically generated for you by the operator. To get the password, run the following <code>oc</code> command:</p>
 <div class="listingblock">
 <div class="content">
 <pre>$ oc extract secret/openshift-gitops-cluster -n openshift-gitops --to=-
@@ -250,7 +250,7 @@ You will point the OpenShift GitOps configuration to fetch the operator configur
 <div class="content">
 <img src="_images/argocd-login.png" alt="argocd login">
 </div>
-<div class="title">Figure 3. ArgoCD Log in Page</div>
+<div class="title">Figure 3. ArgoCD Login Page</div>
 </div>
 </li>
 <li>

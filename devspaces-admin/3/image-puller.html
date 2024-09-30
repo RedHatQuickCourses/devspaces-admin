@@ -122,10 +122,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the previous lab, you would have noted that it took a long time for the Workspace to start and display the IDE, even if the Workspace was empty (No source code tree). Dev Spaces loads a default container image (called the <strong>Universal Developer Image - UDI</strong>) in a Workspace if you did not specify one explicitly. To reduce the start up time of workspaces, use the <strong>Image Puller</strong>, an OpenShift component that can be used to pre-pull and cache container images.</p>
+<p>In the previous lab, you would have noted that it took a long time for the Workspace to start and display the IDE, even if the Workspace was empty (No source code tree). Dev Spaces loads a default container image (called the <strong>Universal Developer Image - UDI</strong>) in a Workspace if you did not specify one explicitly. To reduce the start-up time of workspaces, use the <strong>Image Puller</strong>, an OpenShift component that can be used to pre-pull and cache container images.</p>
 </div>
 <div class="paragraph">
-<p>The Image Puller is an additional OpenShift deployment which creates a <code>DaemonSet</code> that can be configured to pre-pull relevant OpenShift Dev Spaces workspace images on each node. These images would already be available when an OpenShift Dev Spaces workspace starts, therefore improving the workspace start up time.</p>
+<p>The Image Puller is an additional OpenShift deployment that creates a <code>DaemonSet</code> that can be configured to pre-pull relevant OpenShift Dev Spaces workspace images on each node. These images would already be available when an OpenShift Dev Spaces workspace starts, therefore improving the workspace start-up time.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -134,7 +134,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Dev Spaces, by default caches container images at the OpenShift node level. For example, if <code>user1</code> downloads a 5GB container image, and if his workspace is scheduled on <code>node1</code> of an OpenShift cluster, then if <code>user2</code> uses the same container image in his workspace, which is also scheduled on <code>node1</code>, then <code>user2</code> will see faster start up time of his workspace due to caching. However if <code>user2</code> workspace is scheduled on <code>node2</code>, which does NOT have the container images cached, he will see increased start up time while the 5GB image is downloaded on <code>node2</code>. The Kubernetes image puller solves this problem by caching a list of container images on <strong>every</strong> node in the OpenShift cluster.
+Dev Spaces, by default caches container images at the OpenShift node level. For example, if <code>user1</code> downloads a 5GB container image, and if his workspace is scheduled on <code>node1</code> of an OpenShift cluster, then if <code>user2</code> uses the same container image in his workspace, which is also scheduled on <code>node1</code>, then <code>user2</code> will see faster start-up time of his workspace due to caching. However, if <code>user2</code> workspace is scheduled on <code>node2</code>, which does NOT have the container images cached, he will see increased start-up time while the 5GB image is downloaded on <code>node2</code>. The Kubernetes image puller solves this problem by caching a list of container images on <strong>every</strong> node in the OpenShift cluster.
 </td>
 </tr>
 </table>
@@ -236,7 +236,7 @@ spec:
 </div>
 </li>
 <li>
-<p>Navigate back to the <code>Operators &gt; Installed Operators</code> page in the OpenShift web console. Click <code>Kubernetes Image Puller</code> in the <code>Provided APIs</code> column. Observe that a new instance of <code>KubernetesImagePuller</code> CR, named <code>devspaces-image-puller</code> is now active. Click on <code>devspaces-image-puller</code> and verify that your list of images is listed in the <code>Images to pull</code> field at the bottom of the screen</p>
+<p>Navigate back to the <code>Operators &gt; Installed Operators</code> page in the OpenShift web console. Click <code>Kubernetes Image Puller</code> in the <code>Provided APIs</code> column. Observe that a new instance of <code>KubernetesImagePuller</code> CR, named <code>devspaces-image-puller</code> is now active. Click on <code>devspaces-image-puller</code> and verify that your list of images is listed in the <code>Images to pull</code> field at the bottom of the screen.</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/image-puller-list.png" alt="image puller list">
