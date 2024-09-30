@@ -56,7 +56,7 @@ In this short lab, you will restrict the number of Workspaces that an authentica
 $ oc edit checluster/devspaces -n openshift-devspaces
 ```
 +
-Although you can directly edit the YAML configuration using this approach, it is not recommended. A better approach is to maintain the YAML configuration in a version controlled Git repository and then use GitOps techniques, or use the `oc replace -f <filename.yaml>` command.
+Although you can directly edit the YAML configuration using this approach, it is not recommended. A better approach is to maintain the YAML configuration in a version-controlled Git repository and then use GitOps techniques, or use the `oc replace -f <filename.yaml>` command.
 +
 WARNING: If you have used the GitOps approach outlined previously, then ArgoCD is responsible for ensuring that the cluster state matches the configuration defined in the Git repository `main` branch. If you overwrite the `CheCluster` CR YAML using `oc` CLI or some other tool, then ArgoCD will reconcile the configuration and overwrite your changes!
 
@@ -127,5 +127,5 @@ image::one-workspace-error.png[Only one Workspace allowed to launch by default]
 You can increase this value by editing an attribute in the `CheCluster` CR. See https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#enabling-users-to-run-multiple-workspaces-simultaneously.
 
 . Make the necessary changes to the `CheCluster` CR YAML file.
-. Log in as `user1` to the Dev Spaces dashboard and launch any of the example workspaces listed in the home page
-. Use a different browser, and log in as `user1` and launch one more example workspace to verify that you can launch more than one workspace.
+. Log in as `user1` to the Dev Spaces dashboard and launch any of the example workspaces listed on the home page.
+. Use a different browser, log in as `user1`, and launch one more example workspace to verify that you can launch more than one workspace.

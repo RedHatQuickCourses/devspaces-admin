@@ -6,7 +6,7 @@ The Red Hat OpenShift Dev Spaces Operator supports two upgrade strategies:
 * Automatic - The Operator __automatically__ installs new updates when they become available.
 * Manual - New updates need to be __manually__ approved before installation begins.
 
-If you chose the `Manual` approval mode, then the OpenShift web console indicates that an upgrade is available in the `Operators > Installed Operators` page.
+If you chose the `Manual` approval mode, then the OpenShift web console indicates that an upgrade is available on the `Operators > Installed Operators` page.
 
 image::upgrades-available.png[title=Upgrades Available for Dev Spaces]
 

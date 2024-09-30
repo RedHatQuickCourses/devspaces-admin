@@ -5,8 +5,8 @@ Red Hat OpenShift Dev Spaces is available as an operator that can be installed u
 
 == Pre-requisites
 
-* You should have provisioned an OpenShift 4.16+ cluster as outlined the `Classroom Environment` section of the course home page. 
-* Download the OpenShift client `oc` for your platform from from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
+* You should have provisioned an OpenShift 4.16+ cluster as outlined in the `Classroom Environment` section of the course home page. 
+* Download the OpenShift client `oc` for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
 * Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
 
 == Lab: Installing Dev Spaces Using the OpenShift Web Console
