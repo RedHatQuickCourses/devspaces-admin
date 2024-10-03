@@ -8,7 +8,7 @@ This course is the `second` in a series of `five` courses about Red Hat OpenShif
 
 . https://redhatquickcourses.github.io/devspaces-intro[Introduction to Red Hat OpenShift Dev Spaces^]
 . Red Hat OpenShift Dev Spaces Administration (_This course_)
-. Securing Access to Red Hat OpenShift Dev Spaces (_Under Development_)
+. https://redhatquickcourses.github.io/devspaces-security[Securing Access to Red Hat OpenShift Dev Spaces^]
 . Creating and Customizing Workspaces in Red Hat OpenShift Dev Spaces (_Under Development_)
 . Configuring Plugins in Red Hat OpenShift Dev Spaces (_Under Development_)
 
