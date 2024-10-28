@@ -9,3 +9,4 @@
 ** xref:che-cluster.adoc[]
 ** xref:image-puller.adoc[]
 ** xref:fuse-overlay.adoc[]
+** xref:workspaces-cli.adoc[]

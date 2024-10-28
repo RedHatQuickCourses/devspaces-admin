@@ -1,0 +1,69 @@
+= Managing Workspaces from the CLI
+:navtitle: Managing Workspaces
+
+The Dev Spaces dashboard provides developers and intuitive, easy to use web-based user interface to create and manage Workspaces. You can also manage workspaces using the `oc` CLI since OpenShift Dev Spaces workspaces are represented as `DevWorkspace` custom resources (CR) in the OpenShift cluster.
+
+For example, if a user creates a workspace named `my-workspace` in the OpenShift Dev Spaces dashboard, there will a corresponding `DevWorkspace` custom resource named `my-workspace` in the users project (All workspaces are created in a dedicated namespace, allocated per user) on the cluster.
+
+== References
+
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#managing-workspaces-with-apis[Managing workspaces with OpenShift APIs^]
+
+== Lab: Managing Workspaces Using the oc CLI
+
+. Log in to the OpenShift Dev Spaces dashboard as the `user1` user. Launch a few workspaces from the dashboard.
+
+. Use the `oc` CLI and log in as the `admin` user
++
+[subs=+quotes]
+----
+$ oc login -u admin  _<OpenShift API URL>_
+----
+
+. List the workspaces for a specific user. Recall that each user gets his own dedicated namespace. When the workspace is being created, the `INFO` column shows `Waiting for workspace deployment`. Once the workspace is running, the `INFO` column shows a unique URL to access the workspace.
++
+[subs=+quotes]
+----
+$ oc get devworkspaces -n user1-devspaces
+_NAME            DEVWORKSPACE ID  PHASE     INFO
+nodejs-web-app   workspacee9a...  Starting  https://<devspaces_url>/<user>/<workspace_name>/<unique_id>
+rust             workspacedcc...  Starting  https://<devspaces_url>/<user>/<workspace_name>/<unique_id>_
+----
++
+NOTE: To list all workspaces created by all the users, run `oc get devworkspaces --all-namespaces`. You can also use the `dw` short alias for the `devworkspaces` resource. That is, `oc get dw --all-namespaces`.
+
+. Stop a running workspace. Use the value from the `NAME` column in the previous step.
++
+[subs=+quotes]
+----
+$ oc patch dw/rust -p '{"spec":{"started":false}}' --type=merge -n user1-devspaces
+_devworkspace.workspace.devfile.io/rust patched_
+----
+
+. Verify that the workspace is stopped.
++
+[subs=+quotes]
+----
+$ oc get dw -n user1-devspaces
+_NAME             DEVWORKSPACE ID             PHASE     INFO
+nodejs-web-app   workspacee9a88f17c11f41dd   Running    https://devspaces...
+rust             workspacedcc0e049958d45dd   *Stopped*  Stopped_
+----
+
+. Restart a stopped workspace. After a while, run the `oc get dw -n user1-devspaces` to verify that the workspace is started.
++
+[subs=+quotes]
+----
+$ oc patch dw/rust -p '{"spec":{"started":true}}' --type=merge -n user1-devspaces
+_devworkspace.workspace.devfile.io/rust patched_
+----
+
+. Delete a workspace. After a while, run the `oc get dw -n user1-devspaces` to verify that the workspace has been deleted.
++
+[subs=+quotes]
+----
+$ oc delete dw/rust -n user1-devspaces
+_devworkspace.workspace.devfile.io "rust" deleted_
+----
+
+NOTE: You can also create a workspace using the `oc` CLI. This process involves cutting and pasting sections from your devfile and then creating a YAML resource file manually for the `devworkspaces` resource. You can then apply this YAML file to the OpenShift cluster to create the workspace. Refer to https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#managing-workspaces-with-apis-creating-workspaces for details.
