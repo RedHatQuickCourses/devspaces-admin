@@ -127,7 +127,47 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Default storage config is 10GB per user</p>
+<p>Workspaces run on OpenShift clusters as containers (pods). If there is no persistence provided, when you stop a workspace, all state is lost. As a good practice for containerized applications, applications requiring persistence of application state should use the Kubernetes Physical Volumes (PV), and Physical Volume Claims (PVC) resources to externalize the persistent state.</p>
+</div>
+<div class="paragraph">
+<p>As an administrator, you can configure storage settings (PV/PVC allocation) for Dev Spaces in multiple ways:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">per-user</dt>
+<dd>
+<p>Each user is allocated a single PV/PVC of 10GB in size by default. This is the default setting. Workspaces share this single PV/PVC. Multiple workspaces are created under unique directory names in the mounted volume.</p>
+</dd>
+<dt class="hdlist1">per-workspace</dt>
+<dd>
+<p>Each workspace is allocated a default 5GB PV/PVC. Workspaces do not share the PVC. This setting consumes a lot more space than the default setting, and is generally not recommended until you require true storage isolation between workspaces.</p>
+</dd>
+<dt class="hdlist1">ephemeral</dt>
+<dd>
+<p>Non-persistent setting. No storage is allocated to workspaces. All state is lost if the workspace is stopped. This setting is useful in cases where you have a "one-off" workspace launch requirement, where you want to quickly work with some source code in a Git repository, or you want to do a quick demo. This setting make the workspace creation and launch faster since there is no disk allocation.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/storage-conf.svg" alt="storage conf">
+</div>
+<div class="title">Figure 1. Storage Configuration in Dev Spaces</div>
+</div>
+<div class="paragraph">
+<p>You will need to configure the storage setting on the <code>CheCluster</code> CR resource using YAML files or <code>oc</code> CLI commands.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can request storage in Devfiles depending upon your application and workspace requirements. This is covered later in the learning path in a course dedicated to creating and managing workspaces using devfiles.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -167,7 +207,7 @@
 <p>Log in as the <code>admin</code> user using the <code>oc</code> CLI.</p>
 </li>
 <li>
-<p>The default storage configuration for Dev Spaces is <em>"One Workspace per user"</em>:</p>
+<p>The default storage configuration for Dev Spaces is <em>"One Workspace per user"</em>, also known as <code>"per-user"</code>:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get checluster/devspaces \
