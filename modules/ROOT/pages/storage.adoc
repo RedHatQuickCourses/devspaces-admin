@@ -1,0 +1,251 @@
+= Workspace Storage Configuration
+:navtitle: Workspace Storage
+
+Default storage config is 10GB per user
+
+
+== References
+
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/administration_guide/index#configuring-storage[Configuring Storage for Dev Spaces Workspaces]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#requesting-persistent-storage-for-workspaces-requesting-persistent-storage-in-a-devfile[Requesting persistent storage in a devfile^]
+
+== Lab: Configuring Workspace Storage
+
+=== Pre-requisites
+
+* You must have configured the `devspaces` CheCluster CR to allow a user to launch more than one workspace simultaneously
+
+=== Steps
+
+. Log in as the `admin` user using the `oc` CLI. 
+
+. The default storage configuration for Dev Spaces is _"One Workspace per user"_:
++
+[source,bash,subs=+quotes]
+----
+$ *oc get checluster/devspaces \
+  -n openshift-devspaces \
+  -o jsonpath='{.spec.devEnvironments.storage.pvcStrategy}'*
+_per-user_
+----
+
+. Assuming that there are no workspaces launched for this user, verify that there are no physical volumes (PV) or physical volume claims (PVC) allocated to the user `user1`. Remember that all resources for a workspace are scoped to a dedicated namespace created for each user. Replace `user1-devspaces` with the unique name of the project if you used a different user.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaces*
+_No resources found_
+----
+
+. As the `user1` user, launch a workspace from the Dev Spaces dashboard.
+
+. Verify that a single PV of size 10GB is allocated to the user. A PVC of the same size is allocated from the previously mentioned PV automatically by the OpenShift cluster.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaces*
+
+_NAME                                               ...
+devworkspace.workspace.devfile.io/nodejs-web-app   ...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-8cb916c0...   10Gi       ...
+
+NAME                                       VOLUME            CAPACITY   ...
+persistentvolumeclaim/claim-devworkspace   pvc-8cb916c0...   10Gi       ..._
+----
+
+. Launch a second workspace as `user1`.
+
+. Since your default storage configuration is set to `per-user`, you should still see only PVC allocated from the same PV as the previous step. Essentially, with this setting, you will see a new `devworkspace` resource created for each new workspace you launch, all sharing the default 10GB PV/PVC that is allocated for this user.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaces*
+
+_NAME                                              ...
+devworkspace.workspace.devfile.io/nodejs-web-app   ...
+devworkspace.workspace.devfile.io/rust             ...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-8cb916c0...   10Gi       ...
+
+NAME                                       VOLUME            CAPACITY   ...
+persistentvolumeclaim/claim-devworkspace   pvc-8cb916c0...   10Gi       ..._
+----
+
+. In a different browser, or using browser incognito/private mode, log in as `user2`. Launch a new workspace from the dashboard.
+
+. Verify that a new PV is allocated for `user2` with a new PVC for this new workspace. Check the `CLAIM` column to confirm the namespace in which the PV is allocated
++
+[source,bash,subs=+quotes]
+----
+$ *oc get pv,pvc --all-namespaces*
+
+_NAME                            CAPACITY   ...
+persistentvolume/pvc-8cb916c0   10Gi       ...
+persistentvolume/pvc-c785111f   10Gi       ...
+
+NAME                                       VOLUME        CAPACITY   ...
+persistentvolumeclaim/claim-devworkspace   pvc-c785111   10Gi       ..._
+----
+
+. Delete the workspace created by `user2`.
++
+[source,bash,subs=+quotes]
+----
+$ *oc delete dw/<workspace_name> -n user2-devspaces*
+_devworkspace.workspace.devfile.io "rust" deleted_
+----
+
+. Run the `oc get pv,pvc --all-namespaces` command, and verify that the PV allocated to `user2` is deleted and reclaimed, while the PV allocated to `user1` is still in `Bound` status. After a while, you should just see one PV for `user1`.
+
+. Switch to the Dashboard view for `user1`. Delete the two workspaces created by `user1`.
++
+[source,bash,subs=+quotes]
+----
+$ *oc delete dw/rust -n user1-devspaces*
+_devworkspace.workspace.devfile.io "rust" deleted_
+
+$ *oc delete dw/nodejs-web-app -n user1-devspaces*
+_devworkspace.workspace.devfile.io "nodejs-web-app" deleted_
+----
+
+. Verify that the PVC and PV allocated to the `user1` user is deleted and reclaimed. After a while, you should see "No resources found" as the output.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaces*
+
+_NAME                               CAPACITY   ...  RECLAIM POLICY   STATUS
+persistentvolume/pvc-8cb916c0...   10Gi       ...  Delete           Released_
+----
+
+. Log out of all active web sessions in dev spaces. You will next change the default storage configuration for Dev Spaces to `per-workspace`.
+
+. Update the CheCluster CR and change the storage configuration to `per-workspace`.
++
+[source,bash,subs=+quotes]
+----
+$ *oc patch checluster/devspaces \
+  -n openshift-devspaces \
+  --type='merge' -p  \
+  '{"spec":{"devEnvironments":{"storage": {"pvcStrategy": "per-workspace"}}}}'*
+_checluster.org.eclipse.che/devspaces patched_
+----
+
+
+. Once again, assuming no workspaces have been launched for `user1`. Verify that there are no PV/PVC allocated for this user.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaces*
+_No resources found_
+----
+
+. Log in to the Dev Spaces dashboard as `user1`, and launch a workspace.
+
+. Verify that a new PV/PVC for the workspaces is launched with a default size of 5GB.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaceso*
+
+_NAME                                              DEVWORKSPACE ID      ...
+devworkspace.workspace.devfile.io/nodejs-mongodb   workspaceeb1b77...   ...
+
+NAME                               CAPACITY   ...                                          
+persistentvolume/pvc-c8bfd27a...   5Gi        ...
+
+NAME                                             STATUS   VOLUME            CAPACITY  ...
+persistentvolumeclaim/storage-workspaceeb1b...   Bound    pvc-c8bfd27a...   5Gi       ..._
+----
+
+. Launch a second workspace as the `user1` user.
+
+. Verify that a new PV/PVC for the second workspace is allocated. This new PV/PVC is also 5GB in size.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw,pv,pvc -n user1-devspaces*
+
+_NAME                                              DEVWORKSPACE ID
+devworkspace.workspace.devfile.io/nodejs-mongodb   workspaceeb1b77b6...
+devworkspace.workspace.devfile.io/nodejs-web-app   workspace93bb710e...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-5d41f6e5...   5Gi        ...
+persistentvolume/pvc-c8bfd27a...   5Gi        ...
+
+NAME                                              CAPACITY ...
+persistentvolumeclaim/storage-workspace93bb...     5Gi     ...
+persistentvolumeclaim/storage-workspaceeb1b...     5Gi     ..._
+----
+
+. Now, log in as `user2` and launch a workspace
+
+. Verify that a third PV/PVC for the new workspace launched by `user2` is allocated.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get pv,pvc --all-namespaces*
+
+_NAME                              CAPACITY   ...
+persistentvolume/pvc-5d41f6e5...   5Gi        ...
+persistentvolume/pvc-bef72f7f...   5Gi        ...
+persistentvolume/pvc-c8bfd27a...   5Gi        ..._
+----
++
+Essentially, you should see a new PV/PVC being allocated for every workspace you launch.
+
+. Delete all workspaces for all users using the `oc` CLI. Replace the `workspace-name` and `user-namespace` with the values in your environment.
++
+[source,bash,subs=+quotes]
+----
+$ *oc delete dw/_<workspace-name>_ -n _<user-namespace>_*
+----
++
+After a while, all allocated PV/PVC are released and the output should show "No resources found".
+
+. Since the `per-workspace` storage setting is wasteful in terms of disk space, revert the storage configuration back to "per-user" before doing the next lab. Ensure you delete all workspaces and verify that all PV/PVC allocated to Dev Spaces is released before reverting the setting.
++
+[source,bash,subs=+quotes]
+----
+$ *oc patch checluster/devspaces \
+  -n openshift-devspaces \
+  --type='merge' -p  \
+  '{"spec":{"devEnvironments":{"storage": {"pvcStrategy": "per-user"}}}}'*
+_checluster.org.eclipse.che/devspaces patched_
+----
+
+
+== Optional Lab: Change the storage configuration to "ephemeral"
+
+. Run the `oc patch` commands shown in the previous lab and change the storage `pvcStrategy` attribute to `"ephemeral"` 
+
+. Log in to the Dev Spaces dashboard as `user1`. Notice how the radio button for `Temporary Storage On` is enabled.
+
+. Launch a workspace or two.
+
+. Verify that no PV/PVC are allocated for any workspace.
++
+[source,bash,subs=+quotes]
+----
+$ oc get dw,pv,pvc -n user1-devspaces
+NAME                                     DEVWORKSPACE ID             ...
+devworkspace.workspace.devfile.io/rust   workspace048296a115a34f62   ...
+----
++
+You can confirm that the storage is set to `ephemeral` by checking the details of the `devworkspace` resource.
++
+[source,bash,subs=+quotes]
+----
+$ *oc get dw/rust -o yaml | grep storage*
+
+_...
+che-editor=che-incubator/che-code/latest&storageType=ephemeral&url=...
+controller.devfile.io/storage-type: ephemeral
+..._
+----
+
+

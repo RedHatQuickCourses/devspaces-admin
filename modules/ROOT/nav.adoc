@@ -10,3 +10,4 @@
 ** xref:image-puller.adoc[]
 ** xref:fuse-overlay.adoc[]
 ** xref:workspaces-cli.adoc[]
+** xref:storage.adoc[]
