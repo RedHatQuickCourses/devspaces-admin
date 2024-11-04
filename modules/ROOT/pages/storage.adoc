@@ -1,8 +1,24 @@
 = Workspace Storage Configuration
 :navtitle: Workspace Storage
 
-Default storage config is 10GB per user
+Workspaces run on OpenShift clusters as containers (pods). If there is no persistence provided, when you stop a workspace, all state is lost. As a good practice for containerized applications, applications requiring persistence of application state should use the Kubernetes Physical Volumes (PV), and Physical Volume Claims (PVC) resources to externalize the persistent state.
 
+As an administrator, you can configure storage settings (PV/PVC allocation) for Dev Spaces in multiple ways:
+
+per-user::
+Each user is allocated a single PV/PVC of 10GB in size by default. This is the default setting. Workspaces share this single PV/PVC. Multiple workspaces are created under unique directory names in the mounted volume.
+
+per-workspace::
+Each workspace is allocated a default 5GB PV/PVC. Workspaces do not share the PVC. This setting consumes a lot more space than the default setting, and is generally not recommended until you require true storage isolation between workspaces.
+
+ephemeral::
+Non-persistent setting. No storage is allocated to workspaces. All state is lost if the workspace is stopped. This setting is useful in cases where you have a "one-off" workspace launch requirement, where you want to quickly work with some source code in a Git repository, or you want to do a quick demo. This setting make the workspace creation and launch faster since there is no disk allocation.
+
+image::storage-conf.svg[title=Storage Configuration in Dev Spaces]
+
+You will need to configure the storage setting on the `CheCluster` CR resource using YAML files or `oc` CLI commands.
+
+NOTE: You can request storage in Devfiles depending upon your application and workspace requirements. This is covered later in the learning path in a course dedicated to creating and managing workspaces using devfiles.
 
 == References
 
@@ -19,7 +35,7 @@ Default storage config is 10GB per user
 
 . Log in as the `admin` user using the `oc` CLI. 
 
-. The default storage configuration for Dev Spaces is _"One Workspace per user"_:
+. The default storage configuration for Dev Spaces is _"One Workspace per user"_, also known as `"per-user"`:
 +
 [source,bash,subs=+quotes]
 ----
