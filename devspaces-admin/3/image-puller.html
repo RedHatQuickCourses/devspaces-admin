@@ -130,6 +130,12 @@
 <div class="paragraph">
 <p>In the previous lab, you would have noted that it took a long time for the Workspace to start and display the IDE, even if the Workspace was empty (No source code tree). Dev Spaces loads a default container image (called the <strong>Universal Developer Image - UDI</strong>) in a Workspace if you did not specify one explicitly. To reduce the start-up time of workspaces, use the <strong>Image Puller</strong>, an OpenShift component that can be used to pre-pull and cache container images.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/image-puller.svg" alt="image puller">
+</div>
+<div class="title">Figure 1. Kubernetes Image Puller</div>
+</div>
 <div class="paragraph">
 <p>The Image Puller is an additional OpenShift deployment that creates a <code>DaemonSet</code> that can be configured to pre-pull relevant OpenShift Dev Spaces workspace images on each node. These images would already be available when an OpenShift Dev Spaces workspace starts, therefore improving the workspace start-up time.</p>
 </div>
@@ -188,7 +194,7 @@ spec:
 <div class="content">
 <img src="_images/img-puller-op-installed.png" alt="img puller op installed">
 </div>
-<div class="title">Figure 1. Kubernetes Image Puller Operator Installed</div>
+<div class="title">Figure 2. Kubernetes Image Puller Operator Installed</div>
 </div>
 </li>
 <li>
@@ -247,7 +253,7 @@ spec:
 <div class="content">
 <img src="_images/image-puller-list.png" alt="image puller list">
 </div>
-<div class="title">Figure 2. List of images to pull</div>
+<div class="title">Figure 3. List of images to pull</div>
 </div>
 </li>
 <li>
@@ -268,7 +274,7 @@ You can identify which container images are being launched in a Workspace, by cl
 <div class="content">
 <img src="_images/workspace-image-pull.png" alt="workspace image pull">
 </div>
-<div class="title">Figure 3. Container images in a Workspace</div>
+<div class="title">Figure 4. Container images in a Workspace</div>
 </div>
 <div class="paragraph">
 <p>You can also run the following command in the namespace (in the format <em>&lt;username&gt;-devspaces</em>) created for the user, to view the container images pulled for the Workspace:</p>
