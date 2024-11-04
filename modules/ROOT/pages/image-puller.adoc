@@ -3,6 +3,8 @@
 
 In the previous lab, you would have noted that it took a long time for the Workspace to start and display the IDE, even if the Workspace was empty (No source code tree). Dev Spaces loads a default container image (called the **Universal Developer Image - UDI**) in a Workspace if you did not specify one explicitly. To reduce the start-up time of workspaces, use the **Image Puller**, an OpenShift component that can be used to pre-pull and cache container images.
 
+image::image-puller.svg[title=Kubernetes Image Puller]
+
 The Image Puller is an additional OpenShift deployment that creates a `DaemonSet` that can be configured to pre-pull relevant OpenShift Dev Spaces workspace images on each node. These images would already be available when an OpenShift Dev Spaces workspace starts, therefore improving the workspace start-up time.
 
 NOTE: Dev Spaces, by default caches container images at the OpenShift node level. For example, if `user1` downloads a 5GB container image, and if his workspace is scheduled on `node1` of an OpenShift cluster, then if `user2` uses the same container image in his workspace, which is also scheduled on `node1`, then `user2` will see faster start-up time of his workspace due to caching. However, if `user2` workspace is scheduled on `node2`, which does NOT have the container images cached, he will see increased start-up time while the 5GB image is downloaded on `node2`. The Kubernetes image puller solves this problem by caching a list of container images on **every** node in the OpenShift cluster.

@@ -3,6 +3,10 @@
 
 In the previous sections, you have installed Dev Spaces and configured a default `CheCluster` (a Kubernetes Custom Resource, or CR) instance named `devspaces`. While you can customize this instance at installation time, it is commonly changed after you get a basic Dev Spaces instance up and running.
 
+You configure Dev Spaces by creating or editing a YAML resource file for the `CheCluster` CR.
+
+image::checluster-cr-config.svg[title=CheCluster YAML Change Process]
+
 The `CheCluster` YAML resource file contains sections to configure various __components__, the major ones being:
 
 * `devWorkspace`
