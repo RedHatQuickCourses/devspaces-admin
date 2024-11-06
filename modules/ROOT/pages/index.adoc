@@ -9,7 +9,7 @@ This course is the `second` in a series of `five` courses about Red Hat OpenShif
 . https://redhatquickcourses.github.io/devspaces-intro[Introduction to Red Hat OpenShift Dev Spaces^]
 . Red Hat OpenShift Dev Spaces Administration (_This course_)
 . https://redhatquickcourses.github.io/devspaces-security[Securing Access to Red Hat OpenShift Dev Spaces^]
-. Creating and Customizing Workspaces in Red Hat OpenShift Dev Spaces (_Under Development_)
+. https://redhatquickcourses.github.io/devspaces-workspaces[Creating and Customizing Workspaces in Red Hat OpenShift DevSpaces^]
 . Configuring Plugins in Red Hat OpenShift Dev Spaces (_Under Development_)
 
 This course covers the install, updates, and uninstall process for Red Hat OpenShift Dev Spaces.
@@ -22,15 +22,20 @@ The overall objectives of this course include:
 
 * Install, Upgrade, and Uninstall Red Hat OpenShift Dev Spaces on the OpenShift Container Platform
 ** Using the operator
-** Using the `dsc` CLI
-** Using OpenShift GitOps
+** Using the `oc` and `dsc` CLIs
+** Using Red Hat OpenShift GitOps
+* Basic configuration of Dev Spaces server components
+* Configure container image caching to speed up Dev Spaces workspaces start up
+* Configure the `fuse-overlayfs` storage driver to improve performance of container builds
+* Manage workspaces using the `oc` CLI
+* Configure workspace storage strategy
 
 == Course Prerequisites
 
 * Basic knowledge of OpenShift (or Kubernetes) administration
 * Knowledge of building Docker or Podman containers
 * Deploying container images on OpenShift or Kubernetes
-* OpenShift or Kubernetes User and Role Administration
+* OpenShift or Kubernetes User and Role Administration (RBAC)
 
 == Contributors
 
@@ -71,35 +76,3 @@ NOTE: The lab environment will take an hour to provision. You can check the stat
 Red Hat partners and others who do not have access to RHDP, should provision their own Red Hat OpenShift 4.16+ cluster using the Red Hat Hybrid Cloud Console at https://console.redhat.com/openshift/overview. Ensure that you provision an OpenShift 4.16 cluster with at least 16 vCPUs and 64GB of RAM.
 
 NOTE: You can also install Dev Spaces and run the hands-on labs using OpenShift Local, provided you allocate a minimum of 16 vCPUs and 32GB+ RAM. Go to https://developers.redhat.com/products/openshift-local/overview and click on `Install OpenShift on your laptop`.
-
-== Configuring OpenShift Users and Authentication
-
-Irrespective of how you provisioned your OpenShift cluster, you need to configure a user account with cluster-administrator access, as well as **five** non-cluster-administrator accounts (to simulate developers using Dev Spaces) for OpenShift. 
-
-. Download and inspect the following two YAML configuration files, which create an `admin` user with cluster-administrator access and five non-admin users (`user1 - user5`). The password for both the `admin` and `user1 - user5` users is `openshift23`.
-+
-* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml
-* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml
-
-. Log in to the OpenShift cluster as the `kubeadmin` user using the `oc` CLI
-+
-[subs=+quotes]
-----
-$ oc login -u kubeadmin _<OpenShift API URL>_
-----
-
-. Apply the two configuration files
-+
-[subs=+quotes]
-----
-$ oc replace -f *authentication.yaml*
-$ oc apply -f *secret.yaml*
-----
-+
-Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a login prompt with the `htpasswd_provider` displayed.
-+
-image::htpasswd-provider.png[title=Updated Log in Page]
-
-. On the updated login page, click the `htpasswd_provider` button, and log in as the `admin` user with password `openshift23` to access the OpenShift web console as a cluster administrator. Repeat the process for the `user1` user and verify that you can access the OpenShift web console as a regular non-admin user.
-
-// Just one question - Should this "Configuring OpenShift Users and Authentication" be on a seperate page than on the landing page? I mean, ideally, landing page should only have a short description, objectives, pre-requisites, and similar stuff.

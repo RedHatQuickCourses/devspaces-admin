@@ -1,0 +1,33 @@
+= Pre-requisites
+
+You need to create the appropriate users in the OpenShift cluster to do the hands-on labs in this learning path.  You will configure HTTPassword based authentication for the OpenShift cluster in this section.
+
+== Configuring OpenShift Users and Authentication
+
+Irrespective of how you provisioned your OpenShift cluster, you need to configure a user account with cluster-administrator access, as well as **five** non-cluster-administrator accounts (to simulate developers using Dev Spaces) for OpenShift. 
+
+. Download and inspect the following two YAML configuration files, which create an `admin` user with cluster-administrator access and five non-admin users (`user1 - user5`). The password for both the `admin` and `user1 - user5` users is `openshift23`.
++
+* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml
+* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml
+
+. Log in to the OpenShift cluster as the `kubeadmin` user using the `oc` CLI
++
+[subs=+quotes]
+----
+$ oc login -u kubeadmin _<OpenShift API URL>_
+----
+
+. Apply the two configuration files
++
+[subs=+quotes]
+----
+$ oc replace -f *authentication.yaml*
+$ oc apply -f *secret.yaml*
+----
++
+Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a login prompt with the `htpasswd_provider` displayed.
++
+image::htpasswd-provider.png[title=Updated Log in Page]
+
+. On the updated login page, click the `htpasswd_provider` button, and log in as the `admin` user with password `openshift23` to access the OpenShift web console as a cluster administrator. Repeat the process for the `user1` user and verify that you can access the OpenShift web console as a regular non-admin user.
