@@ -45,6 +45,9 @@
     <a class="nav-link" href="install.html">Install</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="prereqs.html">Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="operator.html">OpenShift Web Console</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -142,7 +145,7 @@ This course is the <code>second</code> in a series of <code>five</code> courses 
 <p><a href="https://redhatquickcourses.github.io/devspaces-security" target="_blank" rel="noopener">Securing Access to Red Hat OpenShift Dev Spaces</a></p>
 </li>
 <li>
-<p>Creating and Customizing Workspaces in Red Hat OpenShift Dev Spaces (<em>Under Development</em>)</p>
+<p><a href="https://redhatquickcourses.github.io/devspaces-workspaces" target="_blank" rel="noopener">Creating and Customizing Workspaces in Red Hat OpenShift DevSpaces</a></p>
 </li>
 <li>
 <p>Configuring Plugins in Red Hat OpenShift Dev Spaces (<em>Under Development</em>)</p>
@@ -182,13 +185,28 @@ The hands-on labs for this course have been tested on <strong>Red Hat OpenShift 
 <p>Using the operator</p>
 </li>
 <li>
-<p>Using the <code>dsc</code> CLI</p>
+<p>Using the <code>oc</code> and <code>dsc</code> CLIs</p>
 </li>
 <li>
-<p>Using OpenShift GitOps</p>
+<p>Using Red Hat OpenShift GitOps</p>
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p>Basic configuration of Dev Spaces server components</p>
+</li>
+<li>
+<p>Configure container image caching to speed up Dev Spaces workspaces start up</p>
+</li>
+<li>
+<p>Configure the <code>fuse-overlayfs</code> storage driver to improve performance of container builds</p>
+</li>
+<li>
+<p>Manage workspaces using the <code>oc</code> CLI</p>
+</li>
+<li>
+<p>Configure workspace storage strategy</p>
 </li>
 </ul>
 </div>
@@ -209,7 +227,7 @@ The hands-on labs for this course have been tested on <strong>Red Hat OpenShift 
 <p>Deploying container images on OpenShift or Kubernetes</p>
 </li>
 <li>
-<p>OpenShift or Kubernetes User and Role Administration</p>
+<p>OpenShift or Kubernetes User and Role Administration (RBAC)</p>
 </li>
 </ul>
 </div>
@@ -320,60 +338,6 @@ You can also install Dev Spaces and run the hands-on labs using OpenShift Local,
 </tr>
 </table>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_configuring_openshift_users_and_authentication"><a class="anchor" href="#_configuring_openshift_users_and_authentication"></a>Configuring OpenShift Users and Authentication</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Irrespective of how you provisioned your OpenShift cluster, you need to configure a user account with cluster-administrator access, as well as <strong>five</strong> non-cluster-administrator accounts (to simulate developers using Dev Spaces) for OpenShift.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Download and inspect the following two YAML configuration files, which create an <code>admin</code> user with cluster-administrator access and five non-admin users (<code>user1 - user5</code>). The password for both the <code>admin</code> and <code>user1 - user5</code> users is <code>openshift23</code>.</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml" class="bare">https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml</a></p>
-</li>
-<li>
-<p><a href="https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml" class="bare">https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Log in to the OpenShift cluster as the <code>kubeadmin</code> user using the <code>oc</code> CLI</p>
-<div class="listingblock">
-<div class="content">
-<pre>$ oc login -u kubeadmin <em>&lt;OpenShift API URL&gt;</em></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Apply the two configuration files</p>
-<div class="listingblock">
-<div class="content">
-<pre>$ oc replace -f <strong>authentication.yaml</strong>
-$ oc apply -f <strong>secret.yaml</strong></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a login prompt with the <code>htpasswd_provider</code> displayed.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/htpasswd-provider.png" alt="htpasswd provider">
-</div>
-<div class="title">Figure 1. Updated Log in Page</div>
-</div>
-</li>
-<li>
-<p>On the updated login page, click the <code>htpasswd_provider</code> button, and log in as the <code>admin</code> user with password <code>openshift23</code> to access the OpenShift web console as a cluster administrator. Repeat the process for the <code>user1</code> user and verify that you can access the OpenShift web console as a regular non-admin user.</p>
-</li>
-</ol>
 </div>
 </div>
 </div>

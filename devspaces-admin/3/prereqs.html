@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Red Hat OpenShift Dev Spaces Configuration :: Red Hat OpenShift Dev Spaces Administration</title>
-    <link rel="prev" href="remove.html">
-    <link rel="next" href="che-cluster.html">
+    <title>Pre-requisites :: Red Hat OpenShift Dev Spaces Administration</title>
+    <link rel="prev" href="install.html">
+    <link rel="next" href="operator.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script>var uiRootPath = '../../_'</script>
@@ -45,7 +45,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="install.html">Install</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="prereqs.html">Pre-requisites</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -65,7 +65,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="remove.html">Uninstall</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="config.html">Configuration</a>
 <ul class="nav-list">
@@ -117,7 +117,8 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></li>
-    <li><a href="config.html">Configuration</a></li>
+    <li><a href="install.html">Install</a></li>
+    <li><a href="prereqs.html">Pre-requisites</a></li>
   </ul>
 </nav>
 </div>
@@ -126,32 +127,71 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Red Hat OpenShift Dev Spaces Configuration</h1>
+<h1 class="page">Pre-requisites</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Configuration involves controlling multiple aspects of Red Hat OpenShift Dev Spaces around security, resource management, storage management, networking, and customizing workspaces tailored to the kinds of applications being developed.</p>
+<p>You need to create the appropriate users in the OpenShift cluster to do the hands-on labs in this learning path.  You will configure HTTPassword based authentication for the OpenShift cluster in this section.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_openshift_users_and_authentication"><a class="anchor" href="#_configuring_openshift_users_and_authentication"></a>Configuring OpenShift Users and Authentication</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>In this section, we focus on tasks that are typically managed by Dev Spaces administrators and OpenShift administrators:</p>
+<p>Irrespective of how you provisioned your OpenShift cluster, you need to configure a user account with cluster-administrator access, as well as <strong>five</strong> non-cluster-administrator accounts (to simulate developers using Dev Spaces) for OpenShift.</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download and inspect the following two YAML configuration files, which create an <code>admin</code> user with cluster-administrator access and five non-admin users (<code>user1 - user5</code>). The password for both the <code>admin</code> and <code>user1 - user5</code> users is <code>openshift23</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Configuring the <code>CheCluster</code> Custom Resource</p>
+<p><a href="https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml" class="bare">https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml</a></p>
 </li>
 <li>
-<p>Configuring the Kubernetes image puller to cache container images and speed up workspace start</p>
-</li>
-<li>
-<p>Configuring the <code>fuse-overlayfs</code> storage driver for improved performance</p>
+<p><a href="https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml" class="bare">https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml</a></p>
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p>Log in to the OpenShift cluster as the <code>kubeadmin</code> user using the <code>oc</code> CLI</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc login -u kubeadmin <em>&lt;OpenShift API URL&gt;</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the two configuration files</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc replace -f <strong>authentication.yaml</strong>
+$ oc apply -f <strong>secret.yaml</strong></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Other areas of administration, including storage, advanced workspace configuration, security, and network security related aspects are covered in a dedicated course targeting workspace configuration, at a later stage in the learning path.</p>
+<p>Log out from the OpenShift web console and CLI. You may have to wait for 5 minutes while the changes take effect. You will see a login prompt with the <code>htpasswd_provider</code> displayed.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/htpasswd-provider.png" alt="htpasswd provider">
+</div>
+<div class="title">Figure 1. Updated Log in Page</div>
+</div>
+</li>
+<li>
+<p>On the updated login page, click the <code>htpasswd_provider</code> button, and log in as the <code>admin</code> user with password <code>openshift23</code> to access the OpenShift web console as a cluster administrator. Repeat the process for the <code>user1</code> user and verify that you can access the OpenShift web console as a regular non-admin user.</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="remove.html">Uninstall</a></span>
-  <span class="next"><a href="che-cluster.html">CheCluster CR</a></span>
+  <span class="prev"><a href="install.html">Install</a></span>
+  <span class="next"><a href="operator.html">OpenShift Web Console</a></span>
 </nav>
 </article>
   </div>
