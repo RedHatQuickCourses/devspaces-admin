@@ -28,12 +28,12 @@ WARNING: If you have previously installed Dev Spaces using a different method, t
 $ oc login -u admin _<OpenShift API URL>_
 ----
 
-. Operators can be installed in two modes - `Automatic` and `Manual`. `Automatic` is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the configuration file at https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml. This file can be used to install Dev Spaces in `Automatic` mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new `CheCluster` instance. The https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml file is used to create a new `CheCluster` resource.
+. Operators can be installed in two modes - `Automatic` and `Manual`. `Automatic` is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml[automatic approval operator^] configuration file. This file can be used to install Dev Spaces in `Automatic` mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new `CheCluster` instance.
 
 . For manual installation mode, inspect and download the two YAML configuration files below. The first file defines a new namespace for installing Dev Spaces, along with the operator subscription, operator group, and related configuration to install a specific version (v3.14) of Dev Spaces. The second file defines a basic configuration for the `CheCluster` resource and creates an instance named `devspaces`.
 +
-* https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml
-* https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml
+* https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml[window=_blank]
+* https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml[window=_blank]
 
 . Install the operator.
 +
@@ -99,13 +99,18 @@ While you can install Dev Spaces using the OpenShift `oc` CLI tool and YAML conf
 * You should have provisioned an OpenShift 4.16+ cluster as outlined in the `Classroom Environment` section of the course home page. 
 * Download the OpenShift client `oc` for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
 * Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
-* Download the latest `dsc` tool for your operating system from https://developers.redhat.com/products/openshift-dev-spaces/download. 
+* Download the latest `dsc` tool for your operating system from https://developers.redhat.com/products/openshift-dev-spaces/download[window=_blank]. 
 ** Extract the archive file and copy the `dsc` directory to a suitable location in your workstation (`/usr/local` is a good choice). 
 ** Add the `/usr/local/dsc/bin` folder to your operating system `PATH` environment variable
 
 === Lab: Using dsc CLI to install Dev Spaces
 
-WARNING: If you have previously installed Dev Spaces using a different method, then run *dsc server:delete --delete-all --delete-namespace -n openshift-devspaces* as the `admin` user to completely remove the existing instance before you proceed with the installation. 
+[WARNING]
+====
+If you have previously installed Dev Spaces using a different method, then run the following command as the `admin` user to completely remove the existing instance before you proceed with the installation. 
+
+*dsc server:delete --delete-all --delete-namespace -n openshift-devspaces*
+====
 
 . The `dsc` tool uses the login context provided by the `oc` CLI tool to manage Dev Spaces instances. Log in as the `admin` user with the `oc` CLI before running `dsc`. Verify that you can execute the `dsc` binary file on your operating system.
 +

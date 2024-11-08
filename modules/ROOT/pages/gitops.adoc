@@ -10,17 +10,22 @@ In this section, you will install OpenShift GitOps, and then store the Dev Space
 * You should have provisioned an OpenShift 4.16+ cluster as outlined in the `Classroom Environment` section of the course home page. 
 * Download the OpenShift client `oc` for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
 * Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
-* Download the latest `dsc` tool for your operating system from https://developers.redhat.com/products/openshift-dev-spaces/download. 
+* Download the latest `dsc` tool for your operating system from https://developers.redhat.com/products/openshift-dev-spaces/download[window=_blank]. 
 ** Extract the archive file and copy the `dsc` directory to a suitable location in your workstation (`/usr/local` is a good choice). 
 ** Add the `/usr/local/dsc/bin` folder to your operating system `PATH` environment variable.
 
 == Lab: Installing Dev Spaces using OpenShift GitOps
 
-WARNING: If you have previously installed Dev Spaces using a different method, then run *dsc server:delete --delete-all --delete-namespace -n openshift-devspaces* as the `admin` user to completely remove the existing instance before you proceed with the installation. 
+[WARNING]
+====
+If you have previously installed Dev Spaces using a different method, then run the following command as the `admin` user to completely remove the existing instance before you proceed with the installation. 
+
+*dsc server:delete --delete-all --delete-namespace -n openshift-devspaces*
+====
 
 . You will install OpenShift GitOps first. Consult the links in the references section to get an understanding of how GitOps is installed and can be used to manage the operator lifecycle. In this lab, you will install the OpenShift GitOps operator using the `oc` CLI.
 
-. Fork the Git repository https://github.com/RedHatQuickCourses/devspaces-apps.git to your own Git account (GitHub or GitLab should work fine).
+. Fork the Git repository https://github.com/RedHatQuickCourses/devspaces-apps.git[window=_blank] to your own Git account (GitHub or GitLab should work fine).
 +
 WARNING: You will point to the OpenShift GitOps configuration to fetch the operator configuration from this forked Git repository. If you fail to point the GitOps configuration to your forked repository, then the configuration from the upstream `RedHatQuickCourses` repository will be applied and may break your Dev Spaces instance!
 
@@ -31,7 +36,7 @@ WARNING: You will point to the OpenShift GitOps configuration to fetch the opera
 $ oc login -u admin _<OpenShift API URL>_
 ----
 
-. Download and inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml file from your forked repository. This configuration is used to install the OpenShift GitOps operator (For simplicity's sake, we install it in `Automatic` approval mode).
+. Download and inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/gitops-operator.yaml[gitops-operator^] file from your forked repository. This configuration is used to install the OpenShift GitOps operator (For simplicity's sake, we install it in `Automatic` approval mode).
 
 . Apply the configuration to install OpenShift GitOps
 +
@@ -73,9 +78,9 @@ __clusterrole.rbac.authorization.k8s.io/cluster-admin added...__
 +
 WARNING: Failure to assign proper roles to the controller service account will result in deployment failures for applications.
 
-. Download and inspect the operator installation YAML configuration file at https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-config/devspaces/00-devspaces-operator-cli.yaml. It is mostly similar to the configuration used in the previous section with some extra annotations for ArgoCD. Note the `argocd.argoproj.io/sync-wave` and `argocd.argoproj.io/managed-by` annotations. Note that we want to install Dev Spaces in `Automatic` approval mode to avoid manual intervention.
+. Download and inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-config/devspaces/00-devspaces-operator-cli.yaml[Dev Spaces operator configuration^] file at. It is mostly similar to the configuration used in the previous section with some extra annotations for ArgoCD. Note the `argocd.argoproj.io/sync-wave` and `argocd.argoproj.io/managed-by` annotations. Note that we want to install Dev Spaces in `Automatic` approval mode to avoid manual intervention.
 
-. Download and inspect the YAML configuration file at https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/devspaces-argo-app.yaml to create a new ArgoCD application for Dev Spaces installation and configuration:
+. Download and inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-install/devspaces-argo-app.yaml[Dev Spaces Argo configuration^] file to create a new ArgoCD application for Dev Spaces installation and configuration:
 +
 [subs=+quotes]
 ----

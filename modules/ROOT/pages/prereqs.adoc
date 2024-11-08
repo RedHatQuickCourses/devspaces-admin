@@ -8,8 +8,8 @@ Irrespective of how you provisioned your OpenShift cluster, you need to configur
 
 . Download and inspect the following two YAML configuration files, which create an `admin` user with cluster-administrator access and five non-admin users (`user1 - user5`). The password for both the `admin` and `user1 - user5` users is `openshift23`.
 +
-* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml
-* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml
+* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/authentication.yaml[window=_blank]
+* https://raw.githubusercontent.com/RedHatQuickCourses/devspaces-apps/main/ocp-auth/secret.yaml[window=_blank]
 
 . Log in to the OpenShift cluster as the `kubeadmin` user using the `oc` CLI
 +

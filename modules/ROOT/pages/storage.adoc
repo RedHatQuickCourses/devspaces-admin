@@ -22,7 +22,7 @@ NOTE: You can request storage in Devfiles depending upon your application and wo
 
 == References
 
-* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/administration_guide/index#configuring-storage[Configuring Storage for Dev Spaces Workspaces]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/administration_guide/index#configuring-storage[Configuring Storage for Dev Spaces Workspaces^]
 * https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#requesting-persistent-storage-for-workspaces-requesting-persistent-storage-in-a-devfile[Requesting persistent storage in a devfile^]
 
 == Lab: Configuring Workspace Storage

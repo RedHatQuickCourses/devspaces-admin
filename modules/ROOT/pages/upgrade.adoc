@@ -20,7 +20,17 @@ You can also upgrade Dev Spaces using the `dsc` client:
 $ dsc server:update -n openshift-devspaces
 ```
 
-NOTE: Run `dsc server:update --help` command to view the list of options. If you get timeout errors during the upgrade process, add the `--k8spodwaittimeout=1800000` flag to increase timeout values.  Run `dsc server:deploy --help` to see the flags for other timeout settings. 
+[NOTE]
+====
+ You can run the following commands to view a list of options:
+
+ `dsc server:update --help`
+ `dsc server:deploy --help`
+ 
+ If you get timeout errors during the upgrade process, add the following flag to increase timeout values:
+ 
+ `--k8spodwaittimeout=1800000`
+ ====
 
 == References
 

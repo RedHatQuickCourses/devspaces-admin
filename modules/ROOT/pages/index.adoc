@@ -73,6 +73,6 @@ NOTE: The lab environment will take an hour to provision. You can check the stat
 
 === For Red Hat Partners
 
-Red Hat partners and others who do not have access to RHDP, should provision their own Red Hat OpenShift 4.16+ cluster using the Red Hat Hybrid Cloud Console at https://console.redhat.com/openshift/overview. Ensure that you provision an OpenShift 4.16 cluster with at least 16 vCPUs and 64GB of RAM.
+Red Hat partners and others who do not have access to RHDP, should provision their own Red Hat OpenShift 4.16+ cluster using the Red Hat Hybrid Cloud Console at https://console.redhat.com/openshift/overview[window=_blank]. Ensure that you provision an OpenShift 4.16 cluster with at least 16 vCPUs and 64GB of RAM.
 
-NOTE: You can also install Dev Spaces and run the hands-on labs using OpenShift Local, provided you allocate a minimum of 16 vCPUs and 32GB+ RAM. Go to https://developers.redhat.com/products/openshift-local/overview and click on `Install OpenShift on your laptop`.
+NOTE: You can also install Dev Spaces and run the hands-on labs using OpenShift Local, provided you allocate a minimum of 16 vCPUs and 32GB+ RAM. Go to https://developers.redhat.com/products/openshift-local/overview[window=_blank] and click on `Install OpenShift on your laptop`.
