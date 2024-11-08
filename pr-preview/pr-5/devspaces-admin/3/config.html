@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Red Hat OpenShift Dev Spaces Configuration :: Red Hat OpenShift Dev Spaces Administration</title>
+    <link rel="prev" href="remove.html">
+    <link rel="next" href="che-cluster.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../..">Red Hat OpenShift Dev Spaces Administration</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/devspaces-admin/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="devspaces-admin" data-version="3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="install.html">Install</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="prereqs.html">Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operator.html">OpenShift Web Console</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="cli.html">CLI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gitops.html">GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="upgrade.html">Upgrade</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="remove.html">Uninstall</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="config.html">Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="che-cluster.html">CheCluster CR</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="image-puller.html">Image Puller</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="fuse-overlay.html">fuse-overlayfs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="workspaces-cli.html">Managing Workspaces</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="storage.html">Workspace Storage</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Red Hat OpenShift Dev Spaces Administration</span>
+    <span class="version">3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">Red Hat OpenShift Dev Spaces Administration</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></li>
+    <li><a href="config.html">Configuration</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Red Hat OpenShift Dev Spaces Configuration</h1>
+<div class="paragraph">
+<p>Configuration involves controlling multiple aspects of Red Hat OpenShift Dev Spaces around security, resource management, storage management, networking, and customizing workspaces tailored to the kinds of applications being developed.</p>
+</div>
+<div class="paragraph">
+<p>In this section, we focus on tasks that are typically managed by Dev Spaces administrators and OpenShift administrators:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configuring the <code>CheCluster</code> Custom Resource</p>
+</li>
+<li>
+<p>Configuring the Kubernetes image puller to cache container images and speed up workspace start</p>
+</li>
+<li>
+<p>Configuring the <code>fuse-overlayfs</code> storage driver for improved performance</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Other areas of administration, including storage, advanced workspace configuration, security, and network security related aspects are covered in a dedicated course targeting workspace configuration, at a later stage in the learning path.</p>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="remove.html">Uninstall</a></span>
+  <span class="next"><a href="che-cluster.html">CheCluster CR</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

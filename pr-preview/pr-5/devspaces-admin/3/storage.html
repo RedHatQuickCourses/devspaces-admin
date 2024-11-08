@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Workspace Storage Configuration :: Red Hat OpenShift Dev Spaces Administration</title>
+    <link rel="prev" href="workspaces-cli.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../..">Red Hat OpenShift Dev Spaces Administration</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/devspaces-admin/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="devspaces-admin" data-version="3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="install.html">Install</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="prereqs.html">Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operator.html">OpenShift Web Console</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="cli.html">CLI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="gitops.html">GitOps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="upgrade.html">Upgrade</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="remove.html">Uninstall</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="config.html">Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="che-cluster.html">CheCluster CR</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="image-puller.html">Image Puller</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="fuse-overlay.html">fuse-overlayfs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="workspaces-cli.html">Managing Workspaces</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="storage.html">Workspace Storage</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Red Hat OpenShift Dev Spaces Administration</span>
+    <span class="version">3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">Red Hat OpenShift Dev Spaces Administration</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Red Hat OpenShift Dev Spaces Administration</a></li>
+    <li><a href="config.html">Configuration</a></li>
+    <li><a href="storage.html">Workspace Storage</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Workspace Storage Configuration</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Workspaces run on OpenShift clusters as containers (pods). If there is no persistence provided, when you stop a workspace, all state is lost. As a good practice for containerized applications, applications requiring persistence of application state should use the Kubernetes Physical Volumes (PV), and Physical Volume Claims (PVC) resources to externalize the persistent state.</p>
+</div>
+<div class="paragraph">
+<p>As an administrator, you can configure storage settings (PV/PVC allocation) for Dev Spaces in multiple ways:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">per-user</dt>
+<dd>
+<p>Each user is allocated a single PV/PVC of 10GB in size by default. This is the default setting. Workspaces share this single PV/PVC. Multiple workspaces are created under unique directory names in the mounted volume.</p>
+</dd>
+<dt class="hdlist1">per-workspace</dt>
+<dd>
+<p>Each workspace is allocated a default 5GB PV/PVC. Workspaces do not share the PVC. This setting consumes a lot more space than the default setting, and is generally not recommended until you require true storage isolation between workspaces.</p>
+</dd>
+<dt class="hdlist1">ephemeral</dt>
+<dd>
+<p>Non-persistent setting. No storage is allocated to workspaces. All state is lost if the workspace is stopped. This setting is useful in cases where you have a "one-off" workspace launch requirement, where you want to quickly work with some source code in a Git repository, or you want to do a quick demo. This setting make the workspace creation and launch faster since there is no disk allocation.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/storage-conf.svg" alt="storage conf">
+</div>
+<div class="title">Figure 1. Storage Configuration in Dev Spaces</div>
+</div>
+<div class="paragraph">
+<p>You will need to configure the storage setting on the <code>CheCluster</code> CR resource using YAML files or <code>oc</code> CLI commands.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can request storage in Devfiles depending upon your application and workspace requirements. This is covered later in the learning path in a course dedicated to creating and managing workspaces using devfiles.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/administration_guide/index#configuring-storage" target="_blank" rel="noopener">Configuring Storage for Dev Spaces Workspaces</a></p>
+</li>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#requesting-persistent-storage-for-workspaces-requesting-persistent-storage-in-a-devfile" target="_blank" rel="noopener">Requesting persistent storage in a devfile</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_configuring_workspace_storage"><a class="anchor" href="#_lab_configuring_workspace_storage"></a>Lab: Configuring Workspace Storage</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_pre_requisites"><a class="anchor" href="#_pre_requisites"></a>Pre-requisites</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You must have configured the <code>devspaces</code> CheCluster CR to allow a user to launch more than one workspace simultaneously</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_steps"><a class="anchor" href="#_steps"></a>Steps</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Log in as the <code>admin</code> user using the <code>oc</code> CLI.</p>
+</li>
+<li>
+<p>The default storage configuration for Dev Spaces is <em>"One Workspace per user"</em>, also known as <code>"per-user"</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get checluster/devspaces \
+  -n openshift-devspaces \
+  -o jsonpath='{.spec.devEnvironments.storage.pvcStrategy}'</strong>
+<em>per-user</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Assuming that there are no workspaces launched for this user, verify that there are no physical volumes (PV) or physical volume claims (PVC) allocated to the user <code>user1</code>. Remember that all resources for a workspace are scoped to a dedicated namespace created for each user. Replace <code>user1-devspaces</code> with the unique name of the project if you used a different user.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaces</strong>
+<em>No resources found</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>As the <code>user1</code> user, launch a workspace from the Dev Spaces dashboard.</p>
+</li>
+<li>
+<p>Verify that a single PV of size 10GB is allocated to the user. A PVC of the same size is allocated from the previously mentioned PV automatically by the OpenShift cluster.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaces</strong>
+
+<em>NAME                                               ...
+devworkspace.workspace.devfile.io/nodejs-web-app   ...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-8cb916c0...   10Gi       ...
+
+NAME                                       VOLUME            CAPACITY   ...
+persistentvolumeclaim/claim-devworkspace   pvc-8cb916c0...   10Gi       ...</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Launch a second workspace as <code>user1</code>.</p>
+</li>
+<li>
+<p>Since your default storage configuration is set to <code>per-user</code>, you should still see only PVC allocated from the same PV as the previous step. Essentially, with this setting, you will see a new <code>devworkspace</code> resource created for each new workspace you launch, all sharing the default 10GB PV/PVC that is allocated for this user.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaces</strong>
+
+<em>NAME                                              ...
+devworkspace.workspace.devfile.io/nodejs-web-app   ...
+devworkspace.workspace.devfile.io/rust             ...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-8cb916c0...   10Gi       ...
+
+NAME                                       VOLUME            CAPACITY   ...
+persistentvolumeclaim/claim-devworkspace   pvc-8cb916c0...   10Gi       ...</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In a different browser, or using browser incognito/private mode, log in as <code>user2</code>. Launch a new workspace from the dashboard.</p>
+</li>
+<li>
+<p>Verify that a new PV is allocated for <code>user2</code> with a new PVC for this new workspace. Check the <code>CLAIM</code> column to confirm the namespace in which the PV is allocated</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get pv,pvc --all-namespaces</strong>
+
+<em>NAME                            CAPACITY   ...
+persistentvolume/pvc-8cb916c0   10Gi       ...
+persistentvolume/pvc-c785111f   10Gi       ...
+
+NAME                                       VOLUME        CAPACITY   ...
+persistentvolumeclaim/claim-devworkspace   pvc-c785111   10Gi       ...</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete the workspace created by <code>user2</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc delete dw/&lt;workspace_name&gt; -n user2-devspaces</strong>
+<em>devworkspace.workspace.devfile.io "rust" deleted</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the <code>oc get pv,pvc --all-namespaces</code> command, and verify that the PV allocated to <code>user2</code> is deleted and reclaimed, while the PV allocated to <code>user1</code> is still in <code>Bound</code> status. After a while, you should just see one PV for <code>user1</code>.</p>
+</li>
+<li>
+<p>Switch to the Dashboard view for <code>user1</code>. Delete the two workspaces created by <code>user1</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc delete dw/rust -n user1-devspaces</strong>
+<em>devworkspace.workspace.devfile.io "rust" deleted</em>
+
+$ <strong>oc delete dw/nodejs-web-app -n user1-devspaces</strong>
+<em>devworkspace.workspace.devfile.io "nodejs-web-app" deleted</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the PVC and PV allocated to the <code>user1</code> user is deleted and reclaimed. After a while, you should see "No resources found" as the output.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaces</strong>
+
+<em>NAME                               CAPACITY   ...  RECLAIM POLICY   STATUS
+persistentvolume/pvc-8cb916c0...   10Gi       ...  Delete           Released</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Log out of all active web sessions in dev spaces. You will next change the default storage configuration for Dev Spaces to <code>per-workspace</code>.</p>
+</li>
+<li>
+<p>Update the CheCluster CR and change the storage configuration to <code>per-workspace</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc patch checluster/devspaces \
+  -n openshift-devspaces \
+  --type='merge' -p  \
+  '{"spec":{"devEnvironments":{"storage": {"pvcStrategy": "per-workspace"}}}}'</strong>
+<em>checluster.org.eclipse.che/devspaces patched</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Once again, assuming no workspaces have been launched for <code>user1</code>. Verify that there are no PV/PVC allocated for this user.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaces</strong>
+<em>No resources found</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Log in to the Dev Spaces dashboard as <code>user1</code>, and launch a workspace.</p>
+</li>
+<li>
+<p>Verify that a new PV/PVC for the workspaces is launched with a default size of 5GB.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaceso</strong>
+
+<em>NAME                                              DEVWORKSPACE ID      ...
+devworkspace.workspace.devfile.io/nodejs-mongodb   workspaceeb1b77...   ...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-c8bfd27a...   5Gi        ...
+
+NAME                                             STATUS   VOLUME            CAPACITY  ...
+persistentvolumeclaim/storage-workspaceeb1b...   Bound    pvc-c8bfd27a...   5Gi       ...</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Launch a second workspace as the <code>user1</code> user.</p>
+</li>
+<li>
+<p>Verify that a new PV/PVC for the second workspace is allocated. This new PV/PVC is also 5GB in size.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw,pv,pvc -n user1-devspaces</strong>
+
+<em>NAME                                              DEVWORKSPACE ID
+devworkspace.workspace.devfile.io/nodejs-mongodb   workspaceeb1b77b6...
+devworkspace.workspace.devfile.io/nodejs-web-app   workspace93bb710e...
+
+NAME                               CAPACITY   ...
+persistentvolume/pvc-5d41f6e5...   5Gi        ...
+persistentvolume/pvc-c8bfd27a...   5Gi        ...
+
+NAME                                              CAPACITY ...
+persistentvolumeclaim/storage-workspace93bb...     5Gi     ...
+persistentvolumeclaim/storage-workspaceeb1b...     5Gi     ...</em></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now, log in as <code>user2</code> and launch a workspace</p>
+</li>
+<li>
+<p>Verify that a third PV/PVC for the new workspace launched by <code>user2</code> is allocated.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get pv,pvc --all-namespaces</strong>
+
+<em>NAME                              CAPACITY   ...
+persistentvolume/pvc-5d41f6e5...   5Gi        ...
+persistentvolume/pvc-bef72f7f...   5Gi        ...
+persistentvolume/pvc-c8bfd27a...   5Gi        ...</em></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Essentially, you should see a new PV/PVC being allocated for every workspace you launch.</p>
+</div>
+</li>
+<li>
+<p>Delete all workspaces for all users using the <code>oc</code> CLI. Replace the <code>workspace-name</code> and <code>user-namespace</code> with the values in your environment.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc delete dw/<em>&lt;workspace-name&gt;</em> -n <em>&lt;user-namespace&gt;</em></strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After a while, all allocated PV/PVC are released and the output should show "No resources found".</p>
+</div>
+</li>
+<li>
+<p>Since the <code>per-workspace</code> storage setting is wasteful in terms of disk space, revert the storage configuration back to "per-user" before doing the next lab. Ensure you delete all workspaces and verify that all PV/PVC allocated to Dev Spaces is released before reverting the setting.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc patch checluster/devspaces \
+  -n openshift-devspaces \
+  --type='merge' -p  \
+  '{"spec":{"devEnvironments":{"storage": {"pvcStrategy": "per-user"}}}}'</strong>
+<em>checluster.org.eclipse.che/devspaces patched</em></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_optional_lab_change_the_storage_configuration_to_ephemeral"><a class="anchor" href="#_optional_lab_change_the_storage_configuration_to_ephemeral"></a>Optional Lab: Change the storage configuration to "ephemeral"</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the <code>oc patch</code> commands shown in the previous lab and change the storage <code>pvcStrategy</code> attribute to <code>"ephemeral"</code></p>
+</li>
+<li>
+<p>Log in to the Dev Spaces dashboard as <code>user1</code>. Notice how the radio button for <code>Temporary Storage On</code> is enabled.</p>
+</li>
+<li>
+<p>Launch a workspace or two.</p>
+</li>
+<li>
+<p>Verify that no PV/PVC are allocated for any workspace.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get dw,pv,pvc -n user1-devspaces
+NAME                                     DEVWORKSPACE ID             ...
+devworkspace.workspace.devfile.io/rust   workspace048296a115a34f62   ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can confirm that the storage is set to <code>ephemeral</code> by checking the details of the <code>devworkspace</code> resource.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get dw/rust -o yaml | grep storage</strong>
+
+<em>...
+che-editor=che-incubator/che-code/latest&amp;storageType=ephemeral&amp;url=...
+controller.devfile.io/storage-type: ephemeral
+...</em></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="workspaces-cli.html">Managing Workspaces</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
