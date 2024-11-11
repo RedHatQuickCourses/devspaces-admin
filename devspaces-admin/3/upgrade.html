@@ -127,8 +127,6 @@
 </aside>
 <article class="doc">
 <h1 class="page">Upgrading Dev Spaces</h1>
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
 <p>The Red Hat OpenShift Dev Spaces Operator supports two upgrade strategies:</p>
 </div>
@@ -175,16 +173,31 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Run <code>dsc server:update --help</code> command to view the list of options. If you get timeout errors during the upgrade process, add the <code>--k8spodwaittimeout=1800000</code> flag to increase timeout values.  Run <code>dsc server:deploy --help</code> to see the flags for other timeout settings.
-</td>
-</tr>
-</table>
+<div class="literalblock">
+<div class="content">
+<pre>You can run the following commands to view a list of options:</pre>
 </div>
 </div>
+<div class="literalblock">
+<div class="content">
+<pre>`dsc server:update --help`
+`dsc server:deploy --help`</pre>
 </div>
-<div class="sect1">
-<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
-<div class="sectionbody">
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>If you get timeout errors during the upgrade process, add the following flag to increase timeout values:</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>`--k8spodwaittimeout=1800000`
+====</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>== References</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -192,7 +205,9 @@ Run <code>dsc server:update --help</code> command to view the list of options. I
 </li>
 </ul>
 </div>
-</div>
+</td>
+</tr>
+</table>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="gitops.html">GitOps</a></span>

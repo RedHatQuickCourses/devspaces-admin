@@ -188,17 +188,17 @@ If you have previously installed Dev Spaces using a different method, then run <
 </div>
 </li>
 <li>
-<p>Operators can be installed in two modes - <code>Automatic</code> and <code>Manual</code>. <code>Automatic</code> is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the configuration file at <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml</a>. This file can be used to install Dev Spaces in <code>Automatic</code> mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new <code>CheCluster</code> instance. The <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml</a> file is used to create a new <code>CheCluster</code> resource.</p>
+<p>Operators can be installed in two modes - <code>Automatic</code> and <code>Manual</code>. <code>Automatic</code> is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml" target="_blank" rel="noopener">automatic approval operator</a> configuration file. This file can be used to install Dev Spaces in <code>Automatic</code> mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new <code>CheCluster</code> instance.</p>
 </li>
 <li>
 <p>For manual installation mode, inspect and download the two YAML configuration files below. The first file defines a new namespace for installing Dev Spaces, along with the operator subscription, operator group, and related configuration to install a specific version (v3.14) of Dev Spaces. The second file defines a basic configuration for the <code>CheCluster</code> resource and creates an instance named <code>devspaces</code>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml</a></p>
+<p><a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml" class="bare" target="_blank" rel="noopener">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/manual-approval-operator.yaml</a></p>
 </li>
 <li>
-<p><a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml" class="bare">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml</a></p>
+<p><a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml" class="bare" target="_blank" rel="noopener">https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/checluster-cr.yaml</a></p>
 </li>
 </ul>
 </div>
@@ -305,7 +305,7 @@ checluster.org.eclipse.che/devspaces created</pre>
 <p>Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.</p>
 </li>
 <li>
-<p>Download the latest <code>dsc</code> tool for your operating system from <a href="https://developers.redhat.com/products/openshift-dev-spaces/download" class="bare">https://developers.redhat.com/products/openshift-dev-spaces/download</a>.</p>
+<p>Download the latest <code>dsc</code> tool for your operating system from <a href="https://developers.redhat.com/products/openshift-dev-spaces/download" class="bare" target="_blank" rel="noopener">https://developers.redhat.com/products/openshift-dev-spaces/download</a>.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -329,7 +329,12 @@ checluster.org.eclipse.che/devspaces created</pre>
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If you have previously installed Dev Spaces using a different method, then run <strong>dsc server:delete --delete-all --delete-namespace -n openshift-devspaces</strong> as the <code>admin</code> user to completely remove the existing instance before you proceed with the installation.
+<div class="paragraph">
+<p>If you have previously installed Dev Spaces using a different method, then run the following command as the <code>admin</code> user to completely remove the existing instance before you proceed with the installation.</p>
+</div>
+<div class="paragraph">
+<p><strong>dsc server:delete --delete-all --delete-namespace -n openshift-devspaces</strong></p>
+</div>
 </td>
 </tr>
 </table>
