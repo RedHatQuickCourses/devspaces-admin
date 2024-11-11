@@ -76,7 +76,7 @@ __-1__
 +
 The *-1* value indicates unlimited Workspaces.
 
-. Inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-config/devspaces/01-checluster-cr.yaml file in your forked Git repository. If you are using the GitOps approach, make the following changes to restrict the maximum number of workspaces per user to 5:
+. Inspect the https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/gitops-config/devspaces/01-checluster-cr.yaml[window=_blank] file in your forked Git repository. If you are using the GitOps approach, make the following changes to restrict the maximum number of workspaces per user to 5:
 +
 [source,yaml,subs=+quotes]
 ----
@@ -128,7 +128,7 @@ By default, a user is allowed to launch only **one** workspace at a time. If you
 
 image::one-workspace-error.png[Only one Workspace allowed to launch by default]
 
-You can increase this value by editing an attribute in the `CheCluster` CR. See https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#enabling-users-to-run-multiple-workspaces-simultaneously.
+You can increase this value by editing an attribute in the `CheCluster` CR. See https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#enabling-users-to-run-multiple-workspaces-simultaneously[window=_blank].
 
 . Make the necessary changes to the `CheCluster` CR YAML file.
 . Log in as `user1` to the Dev Spaces dashboard and launch any of the example workspaces listed on the home page.

@@ -66,4 +66,4 @@ $ oc delete dw/rust -n user1-devspaces
 _devworkspace.workspace.devfile.io "rust" deleted_
 ----
 
-NOTE: You can also create a workspace using the `oc` CLI. This process involves cutting and pasting sections from your devfile and then creating a YAML resource file manually for the `devworkspaces` resource. You can then apply this YAML file to the OpenShift cluster to create the workspace. Refer to https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#managing-workspaces-with-apis-creating-workspaces for details.
+NOTE: You can also create a workspace using the `oc` CLI. This process involves cutting and pasting sections from your devfile and then creating a YAML resource file manually for the `devworkspaces` resource. You can then apply this YAML file to the OpenShift cluster to create the workspace. Refer to https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#managing-workspaces-with-apis-creating-workspaces[window=_blank] for details.
