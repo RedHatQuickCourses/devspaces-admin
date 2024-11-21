@@ -18,12 +18,21 @@ image::storage-conf.svg[title=Storage Configuration in Dev Spaces]
 
 You will need to configure the storage setting on the `CheCluster` CR resource using YAML files or `oc` CLI commands.
 
-NOTE: You can request storage in Devfiles depending upon your application and workspace requirements. This is covered later in the learning path in a course dedicated to creating and managing workspaces using devfiles.
+== Notes on "per-workspace" Mode PVC Size Calculation
+
+In `per-workspace` mode, you can request storage in Devfiles depending upon your application and workspace requirements. The rules governing the PVC size calculation are as follows:
+
+* If all volumes in a devfile specify their size, the *computed* (sum of all sizes mentioned in the devfile) PVC size will be used.
+* If at least one volume in a devfile specifies its size, and the *computed* PVC size is greater than the *default per-workspace* PVC size, the *computed* PVC size will be used.
+* It is possible for the PVC size to be larger or smaller than the `per-workspace` PVC storage size that is set in the Che Cluster CRs `devEnvironments.storage.PerWorkspaceStrategyPvcConfig.claimSize` attribute.
+* The *computed* PVC size will only be used if it is larger than the *per-workspace* PVC storage size that is set in the Che Cluster CRs `devEnvironments.storage.PerWorkspaceStrategyPvcConfig.claimSize` attribute. If it is smaller than the *per-workspace* PVC claimSize defined in the Che Cluster CR, then the PVC size will be set to the Che Cluster's *per-workspace* PVC claim size.
+* If the devfile volumes do not meet any of these rules requirements, then the default *per-workspace* PVC storage size will be used (that is, the size defined in the Che Cluster CRs `devEnvironments.storage.PerWorkspaceStrategyPvcConfig.claimSize` attribute).
 
 == References
 
 * https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/administration_guide/index#configuring-storage[Configuring Storage for Dev Spaces Workspaces^]
 * https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#requesting-persistent-storage-for-workspaces-requesting-persistent-storage-in-a-devfile[Requesting persistent storage in a devfile^]
+* https://github.com/eclipse-che/che/issues/23258[per-workspace PVC size calculation^]
 
 == Lab: Configuring Workspace Storage
 
