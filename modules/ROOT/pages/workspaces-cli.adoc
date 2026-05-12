@@ -7,7 +7,7 @@ For example, if a user creates a workspace named `my-workspace` in the OpenShift
 
 == References
 
-* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#managing-workspaces-with-apis[Managing workspaces with OpenShift APIs^]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html-single/administration_guide/index#proc_using-devspaces-server-api_administration_guide[Managing workspaces with OpenShift APIs^]
 
 == Lab: Managing Workspaces Using the oc CLI
 
@@ -66,4 +66,4 @@ $ oc delete dw/rust -n user1-devspaces
 _devworkspace.workspace.devfile.io "rust" deleted_
 ----
 
-NOTE: You can also create a workspace using the `oc` CLI. This process involves cutting and pasting sections from your devfile and then creating a YAML resource file manually for the `devworkspaces` resource. You can then apply this YAML file to the OpenShift cluster to create the workspace. Refer to https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#managing-workspaces-with-apis-creating-workspaces[window=_blank] for details.
+NOTE: You can also create a workspace using the `oc` CLI. This process involves cutting and pasting sections from your devfile and then creating a YAML resource file manually for the `devworkspaces` resource. You can then apply this YAML file to the OpenShift cluster to create the workspace. Refer to https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html-single/user_guide/index#proc_creating-workspaces_user_guide[window=_blank] for details.

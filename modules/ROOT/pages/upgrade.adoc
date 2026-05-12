@@ -30,7 +30,7 @@ $ dsc server:update -n openshift-devspaces
  If you get timeout errors during the upgrade process, add the following flag to increase timeout values:
  
  `--k8spodwaittimeout=1800000`
- ====
+====
 
 == References
 

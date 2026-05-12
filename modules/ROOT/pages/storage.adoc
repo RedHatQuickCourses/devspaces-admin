@@ -30,8 +30,8 @@ In `per-workspace` mode, you can request storage in Devfiles depending upon your
 
 == References
 
-* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/administration_guide/index#configuring-storage[Configuring Storage for Dev Spaces Workspaces^]
-* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.16/html-single/user_guide/index#requesting-persistent-storage-for-workspaces-requesting-persistent-storage-in-a-devfile[Requesting persistent storage in a devfile^]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html/administration_guide/assembly_configuring-storage_administration_guide[Configuring Storage for Dev Spaces Workspaces^]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html/administration_guide/assembly_configuring-storage_administration_guide#proc_configuring-storage-strategy_administration_guide[Configure the storage strategy ^]
 * https://github.com/eclipse-che/che/issues/23258[per-workspace PVC size calculation^]
 
 == Lab: Configuring Workspace Storage
@@ -272,5 +272,3 @@ che-editor=che-incubator/che-code/latest&storageType=ephemeral&url=...
 controller.devfile.io/storage-type: ephemeral
 ..._
 ----
-
-

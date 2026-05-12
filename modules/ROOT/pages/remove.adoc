@@ -52,6 +52,7 @@ $ oc delete namespace user1-devspaces
 
 . Expand the menu (three vertical dots) next to the `devspaces` instance, and then click `Delete CheCluster` to delete the instance. You will be asked to confirm the deletion of the instance. Click `Delete`.
 +
+
 image::delete-ds-instance.png[title=Delete Dev Spaces Instance]
 
 . Expand the `Actions` drop-down and click `Uninstall Operator`. You will be asked to confirm the uninstallation. Click `Uninstall` to remove the operator.

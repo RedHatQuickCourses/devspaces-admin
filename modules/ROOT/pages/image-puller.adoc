@@ -43,14 +43,13 @@ $ oc apply -f image-puller-sub.yaml
 +
 image::img-puller-op-installed.png[title=Kubernetes Image Puller Operator Installed]
 
-. You need a list of container images that you need the image puller to pre-pull before workspace start. Navigate to the following URL and grab the list of container images. You can also add other third party and custom container images to the list.
-+
-https://<openshift_dev_spaces_fqdn>/plugin-registry/v3/external_images.txt
+. You need a list of container images that you need the image puller to pre-pull before workspace start. 
+
+. In OpenShift Dev Spaces 3.27, the legacy embedded plugin registry is deprecated in favor of the embedded Open VSX registry. The older `external_images.txt` endpoint might not be available or maintained. Instead, manually specify the workspace images that should be pre-pulled by the Kubernetes Image Puller.
 +
 ```bash
-registry.redhat.io/devspaces/udi-rhel8:3.15
-registry.redhat.io/devspaces/idea-rhel8:3.15
-registry.redhat.io/devspaces/code-rhel8:3.15
+registry.redhat.io/devspaces/udi-rhel9
+registry.redhat.io/devspaces/traefik-rhel9
 ```
 
 . Edit the `devspaces` CheCluster CR YAML configuration and configure the image puller:
@@ -69,11 +68,11 @@ spec:
   components:
 ...
     devfileRegistry: {}
-    *imagePuller:
+    imagePuller:
       enable: true <1>
-      spec:
+      spec: 
         images: >- <2>
-          registry.redhat.io/devspaces/udi-rhel8:3.15;registry.redhat.io/devspaces/idea-rhel8:3.15;registry.redhat.io/devspaces/code-rhel8:3.15
+          registry.redhat.io/devspaces/udi-rhel9;registry.redhat.io/devspaces/traefik-rhel9
         ... 
 ----
 +
@@ -92,4 +91,7 @@ image::workspace-image-pull.png[title=Container images in a Workspace]
 +
 You can also run the following command in the namespace (in the format __<username>-devspaces__) created for the user, to view the container images pulled for the Workspace:
 +
-**oc get events -n user1-devspaces **
+[source,bash,subs=+quotes]
+----
+$ **oc get events -n user1-devspaces **
+----
