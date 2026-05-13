@@ -149,7 +149,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>You should have provisioned an OpenShift 4.16+ cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
+<p>You should have provisioned an OpenShift 4.16 cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
 </li>
 <li>
 <p>Download the OpenShift client <code>oc</code> for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
@@ -191,7 +191,7 @@ If you have previously installed Dev Spaces using a different method, then run <
 <p>Operators can be installed in two modes - <code>Automatic</code> and <code>Manual</code>. <code>Automatic</code> is the simplest mode, where you do not need any manual intervention required and the operator is automatically installed. Inspect the <a href="https://github.com/RedHatQuickCourses/devspaces-apps/blob/main/operator-cli/automatic-approval-operator.yaml" target="_blank" rel="noopener">automatic approval operator</a> configuration file. This file can be used to install Dev Spaces in <code>Automatic</code> mode. If you choose this option, skip the next steps for manual mode and jump directly to the step where you instantiate a new <code>CheCluster</code> instance.</p>
 </li>
 <li>
-<p>For manual installation mode, inspect and download the two YAML configuration files below. The first file defines a new namespace for installing Dev Spaces, along with the operator subscription, operator group, and related configuration to install a specific version (v3.14) of Dev Spaces. The second file defines a basic configuration for the <code>CheCluster</code> resource and creates an instance named <code>devspaces</code>.</p>
+<p>For manual installation mode, inspect and download the two YAML configuration files below. The first file defines a new namespace for installing Dev Spaces, along with the operator subscription, operator group, and related configuration to install a specific version (v3.27.1) of Dev Spaces. The second file defines a basic configuration for the <code>CheCluster</code> resource and creates an instance named <code>devspaces</code>.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -296,7 +296,7 @@ checluster.org.eclipse.che/devspaces created</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>You should have provisioned an OpenShift 4.16+ cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
+<p>You should have provisioned an OpenShift 4.16 cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
 </li>
 <li>
 <p>Download the OpenShift client <code>oc</code> for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
@@ -377,7 +377,7 @@ namespace/openshift-devspaces created</pre>
 <div class="listingblock">
 <div class="content">
 <pre>$ <strong>dsc server:deploy -p openshift -n openshift-devspaces</strong>
-› Current Kubernetes context: 'default/api-cluster...'
+› Current Kubernetes context: 'default/api-cluster-5knwp-5knwp-sandbox1524-opentlc-com:6443/admin'
   ✔ Verify Kubernetes API...[1.29]
   ✔ OpenShift version...[4.16]
   ✔ Openshift preflight checklist
@@ -386,6 +386,9 @@ namespace/openshift-devspaces created</pre>
   ✔ Create Namespace openshift-devspaces...[Exists]
   ✔ Start following Red Hat OpenShift Dev Spaces installation logs...[OK]
   ✔ Deploy Red Hat OpenShift Dev Spaces
+    ✔ Install Dev Workspace operator
+      ✔ Create Subscription devworkspace-operator...[Created]
+      ✔ Wait for Dev Workspace operator ready...[OK]
     ✔ Create Subscription devspaces-subscription...[Created]
     ✔ Red Hat OpenShift Dev Spaces Operator pod bootstrap
       ✔ Scheduling...[OK]
@@ -393,11 +396,7 @@ namespace/openshift-devspaces created</pre>
       ✔ Starting...[OK]
     ✔ Fetch CheCluster sample from a CSV...[OK]
     ✔ Create CheCluster Custom Resource...[Created]
-  ✔ Wait for Red Hat OpenShift Dev Spaces ready
-    ✔ Devfile Registry pod bootstrap
-      ✔ Scheduling...[OK]
-      ✔ Downloading images...[OK]
-      ✔ Starting...[OK]
+  ❯ Wait for Red Hat OpenShift Dev Spaces ready
     ✔ Plugin Registry pod bootstrap
       ✔ Scheduling...[OK]
       ✔ Downloading images...[OK]
@@ -406,19 +405,15 @@ namespace/openshift-devspaces created</pre>
       ✔ Scheduling...[OK]
       ✔ Downloading images...[OK]
       ✔ Starting...[OK]
-    ✔ Gateway pod bootstrap
+    ❯ Gateway pod bootstrap
       ✔ Scheduling...[OK]
       ✔ Downloading images...[OK]
-      ✔ Starting...[OK]
-    ✔ Red Hat OpenShift Dev Spaces Server pod bootstrap
-      ✔ Scheduling...[OK]
-      ✔ Downloading images...[OK]
-      ✔ Starting...[OK]
+      ⠹ Starting
     ✔ Wait Red Hat OpenShift Dev Spaces active...[OK]
   ✔ Retrieving Red Hat OpenShift Dev Spaces self-signed CA certificate...
   ✔ Prepare post installation output...[OK]
   ✔ Show important messages
-    ✔ Red Hat OpenShift Dev Spaces 3.15.0 has been successfully deployed.
+    ✔ Red Hat OpenShift Dev Spaces 3.27.1 has been successfully deployed.
     ...
 Command server:deploy has completed successfully in 02:51.</pre>
 </div>
@@ -441,8 +436,8 @@ Use the <code>dsc server:deploy --help</code> command to list the full options t
 <div class="listingblock">
 <div class="content">
 <pre>$ <strong>dsc server:status</strong>
-Red Hat OpenShift Dev Spaces Version    : 3.15.0
-Red Hat OpenShift Dev Spaces Url        : https://devspaces.apps.cluster-<strong>&lt;guid&gt;.&lt;guid&gt;</strong>.sandbox1152.opentlc.com/dashboard/</pre>
+Red Hat OpenShift Dev Spaces Version    : 3.27.1
+Red Hat OpenShift Dev Spaces Url        : https://devspaces.apps.cluster-5knwp.5knwp.sandbox1524.opentlc.com/dashboard/</pre>
 </div>
 </div>
 </li>
@@ -457,7 +452,7 @@ Red Hat OpenShift Dev Spaces Url        : https://devspaces.apps.cluster-<strong
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#installing-devspaces-on-openshift-using-cli" target="_blank" rel="noopener">Installing Dev Spaces on OpenShift using CLI</a></p>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27.1/html-single/administration_guide/index#installing-devspaces-on-openshift-using-cli" target="_blank" rel="noopener">Installing Dev Spaces on OpenShift using CLI</a></p>
 </li>
 </ul>
 </div>

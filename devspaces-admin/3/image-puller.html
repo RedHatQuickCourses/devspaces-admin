@@ -201,15 +201,14 @@ spec:
 </div>
 </li>
 <li>
-<p>You need a list of container images that you need the image puller to pre-pull before workspace start. Navigate to the following URL and grab the list of container images. You can also add other third party and custom container images to the list.</p>
-<div class="paragraph">
-<p><a href="https://&lt;openshift_dev_spaces_fqdn&gt;/plugin-registry/v3/external_images.txt" class="bare">https://&lt;openshift_dev_spaces_fqdn&gt;/plugin-registry/v3/external_images.txt</a></p>
-</div>
+<p>You need a list of container images that you need the image puller to pre-pull before workspace start.</p>
+</li>
+<li>
+<p>In OpenShift Dev Spaces 3.27, the legacy embedded plugin registry is deprecated in favor of the embedded Open VSX registry. The older <code>external_images.txt</code> endpoint might not be available or maintained. Instead, manually specify the workspace images that should be pre-pulled by the Kubernetes Image Puller.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">registry.redhat.io/devspaces/udi-rhel8:3.15
-registry.redhat.io/devspaces/idea-rhel8:3.15
-registry.redhat.io/devspaces/code-rhel8:3.15</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">registry.redhat.io/devspaces/udi-rhel9
+registry.redhat.io/devspaces/traefik-rhel9</code></pre>
 </div>
 </div>
 </li>
@@ -229,11 +228,11 @@ spec:
   components:
 ...
     devfileRegistry: {}
-    *imagePuller:
+    imagePuller:
       enable: true <i class="conum" data-value="1"></i><b>(1)</b>
       spec:
         images: &gt;- <i class="conum" data-value="2"></i><b>(2)</b>
-          registry.redhat.io/devspaces/udi-rhel8:3.15;registry.redhat.io/devspaces/idea-rhel8:3.15;registry.redhat.io/devspaces/code-rhel8:3.15
+          registry.redhat.io/devspaces/udi-rhel9;registry.redhat.io/devspaces/traefik-rhel9
         ...</code></pre>
 </div>
 </div>
@@ -282,8 +281,10 @@ You can identify which container images are being launched in a Workspace, by cl
 <div class="paragraph">
 <p>You can also run the following command in the namespace (in the format <em>&lt;username&gt;-devspaces</em>) created for the user, to view the container images pulled for the Workspace:</p>
 </div>
-<div class="paragraph">
-<p><strong>oc get events -n user1-devspaces </strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ <strong>oc get events -n user1-devspaces </strong></code></pre>
+</div>
 </div>
 </li>
 </ol>

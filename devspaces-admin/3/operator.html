@@ -141,7 +141,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>You should have provisioned an OpenShift 4.16+ cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
+<p>You should have provisioned an OpenShift 4.16 cluster as outlined in the <code>Classroom Environment</code> section of the course home page.</p>
 </li>
 <li>
 <p>Download the OpenShift client <code>oc</code> for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the <code>oc</code> binary for your platform to the system path (usually <code>/usr/local/bin</code> on UNIX systems).</p>
@@ -195,15 +195,21 @@ The OpenShift web console will not allow you to create a new namespace/project s
 </div>
 </li>
 <li>
-<p>In the operator details page, select the <code>stable</code> channel and the latest <code>Version</code> of Dev Spaces (3.15 as of Sep 2024), and then click <code>Install</code>.</p>
+<p>In the operator details page, select the <code>stable</code> channel and the latest <code>Version</code> of Dev Spaces (3.27.1 as of May 2026), and then click <code>Install</code>.</p>
 </li>
 <li>
-<p>In the <code>Install Operator</code> page, leave all fields at their default value and only change the <code>Installed Namespace</code> field to <code>openshift-devspaces</code>. Click <code>Install</code> to proceed.</p>
+<p>In the <code>Install Operator</code> page, leave all fields at their default value and only change the <code>Installed Namespace</code> field to <code>openshiftdevspaces</code>. Click <code>Install</code> to proceed.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ns.png" alt="ns">
+</div>
+<div class="title">Figure 2. Create openshift-devspaces namespace</div>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/change-devspaces-namespace.png" alt="change devspaces namespace">
 </div>
-<div class="title">Figure 2. Change Namespace where Dev Spaces will be installed</div>
+<div class="title">Figure 3. Change Namespace where Dev Spaces will be installed</div>
 </div>
 </li>
 <li>
@@ -212,20 +218,44 @@ The OpenShift web console will not allow you to create a new namespace/project s
 <div class="content">
 <img src="_images/operator-success.png" alt="operator success">
 </div>
-<div class="title">Figure 3. Operator installed successfully</div>
+<div class="title">Figure 4. Operator installed successfully</div>
 </div>
 </li>
 <li>
-<p>Click <code>Red Hat OpenShift Dev Spaces instance Specification</code> in the <code>Provided APIs</code> column to create a new Dev Spaces instance from the installed operator. Click <code>Create CheCluster</code>.</p>
+<p>Click <code>Red Hat OpenShift Dev Spaces instance Specification</code> in the <code>Provided APIs</code> column to create a new Dev Spaces instance from the installed operator. Click <code>Create Instance</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/instance.png" alt="instance">
+</div>
+<div class="title">Figure 5. Create Instance</div>
+</div>
 </li>
 <li>
 <p>In the <code>Create CheCluster</code> page, leave all values at defaults, and click <code>Create</code> to create a new Dev Spaces instance. You will accept the default configuration at this point and get a basic Dev Spaces instance up and running. You will progressively configure the instance in subsequent courses in the learning path.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/createchecluster.png" alt="createchecluster">
+</div>
+<div class="title">Figure 6. Create CheCluster</div>
+</div>
 </li>
 <li>
 <p>Wait for a few minutes while the instance is created. Click the <code>devspaces</code> CheCluster resource and verify that the <code>Message</code> field says <code>None</code>, indicating that the instance was successfully initialized.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/message.png" alt="message">
+</div>
+<div class="title">Figure 7. Installation Successful</div>
+</div>
 </li>
 <li>
 <p>Click on the <code>Resources</code> tab and note the list of Kubernetes resources created. All the resources must have a <code>Status</code> of <code>Created</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/success.png" alt="success">
+</div>
+<div class="title">Figure 8. Installation Successful</div>
+</div>
 </li>
 <li>
 <p>Switch back to the <code>Details</code> tab. Note the link to the Dev Spaces instance under the <code>Red Hat OpenShift Dev Spaces URL</code> field.</p>
@@ -233,7 +263,7 @@ The OpenShift web console will not allow you to create a new namespace/project s
 <div class="content">
 <img src="_images/devspaces-url.png" alt="devspaces url">
 </div>
-<div class="title">Figure 4. Dev Spaces URL</div>
+<div class="title">Figure 9. Dev Spaces URL</div>
 </div>
 </li>
 <li>
@@ -261,7 +291,7 @@ The OpenShift web console will not allow you to create a new namespace/project s
 <div class="content">
 <img src="_images/devspaces-home.png" alt="devspaces home">
 </div>
-<div class="title">Figure 5. Dev Spaces Home Page</div>
+<div class="title">Figure 10. Dev Spaces Home Page</div>
 </div>
 </li>
 </ol>
@@ -274,7 +304,7 @@ The OpenShift web console will not allow you to create a new namespace/project s
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#installing-devspaces-on-openshift-using-the-web-console" target="_blank" rel="noopener">Installing Dev Spaces on OpenShift using the web console</a></p>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html-single/administration_guide/index#installing-devspaces-on-openshift-using-the-web-console" target="_blank" rel="noopener">Installing Dev Spaces on OpenShift using the web console</a></p>
 </li>
 </ul>
 </div>

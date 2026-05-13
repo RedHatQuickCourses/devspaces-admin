@@ -226,28 +226,6 @@ Access: ...</code></pre>
 </div>
 </li>
 <li>
-<p>Next, to enable the <code>fuse-overlayfs</code> storage driver, inspect the contents of the <code>~/.config/containers/storage.conf</code> file, and note that Podman and Buildah in the workspace is configured to use the <code>vfs</code> driver by default:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">web-nodejs-sample $ cat ~/.config/containers/storage.conf
-[storage]
-driver = "vfs"</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Edit the <code>~/.config/containers/storage.conf</code> file inside the workspace and make the following changes (Use the <code>vi</code> or <code>vim</code> editor to make the changes):</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[storage]
-driver = "overlay"
-
-[storage.options.overlay]
-mount_program="/usr/bin/fuse-overlayfs"</code></pre>
-</div>
-</div>
-</li>
-<li>
 <p>Delete some cached files using the old <code>vfs</code> driver</p>
 <div class="listingblock">
 <div class="content">
@@ -260,12 +238,12 @@ mount_program="/usr/bin/fuse-overlayfs"</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">web-nodejs-sample $ podman info | grep overlay
-graphDriverName: overlay
-overlay.mount_program:
-  Executable: /usr/bin/fuse-overlayfs
-  Package: fuse-overlayfs-1.13-1.module+el8.10.0+22202+761b9a65.x86_64
-  fuse-overlayfs: version 1.13-dev
-  Backing Filesystem: overlayfs</code></pre>
+  graphDriverName: overlay
+    overlay.mount_program:
+      Executable: /usr/bin/fuse-overlayfs
+      Package: fuse-overlayfs-1.16-1.el9_7.x86_64
+        fuse-overlayfs: version 1.16
+    Backing Filesystem: overlayfs</code></pre>
 </div>
 </div>
 </li>
