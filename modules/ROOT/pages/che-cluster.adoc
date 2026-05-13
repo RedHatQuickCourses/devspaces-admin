@@ -20,7 +20,7 @@ The Red Hat OpenShift Dev Spaces Operator parses and converts the `CheCluster` C
 
 The OpenShift platform applies the configuration to each component, and creates the necessary Pods. When OpenShift detects changes in the configuration of a component, it restarts the Pods accordingly.
 
-Refer to the https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#checluster-custom-resource-fields-reference[CheCluster Custom Resource fields reference^] for the full list of attributes and values that can be changed.
+Refer to the https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html-single/administration_guide/index#ref_checluster-custom-resource-fields_administration_guide[CheCluster Custom Resource fields reference^] for the full list of attributes and values that can be changed.
 
 == Configure the CheCluster Custom Resource during Installation
 
@@ -128,7 +128,7 @@ By default, a user is allowed to launch only **one** workspace at a time. If you
 
 image::one-workspace-error.png[Only one Workspace allowed to launch by default]
 
-You can increase this value by editing an attribute in the `CheCluster` CR. See https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#enabling-users-to-run-multiple-workspaces-simultaneously[window=_blank].
+You can increase this value by editing an attribute in the `CheCluster` CR. See https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html-single/administration_guide/index#proc_enabling-multiple-workspaces-simultaneously_administration_guide[window=_blank].
 
 . Make the necessary changes to the `CheCluster` CR YAML file.
 . Log in as `user1` to the Dev Spaces dashboard and launch any of the example workspaces listed on the home page.

@@ -5,7 +5,7 @@ Red Hat OpenShift Dev Spaces is available as an operator that can be installed u
 
 == Pre-requisites
 
-* You should have provisioned an OpenShift 4.16+ cluster as outlined in the `Classroom Environment` section of the course home page. 
+* You should have provisioned an OpenShift 4.16 cluster as outlined in the `Classroom Environment` section of the course home page. 
 * Download the OpenShift client `oc` for your platform from the OpenShift web console by clicking the "?" icon on the top right navigation bar. Uncompress the archive file, and then copy the `oc` binary for your platform to the system path (usually `/usr/local/bin` on UNIX systems).
 * Cluster administrator access to OpenShift (both CLI and web console). Verify that you can log in to the OpenShift web console and CLI as a cluster administrator.
 
@@ -29,9 +29,11 @@ WARNING: The OpenShift web console will not allow you to create a new namespace/
 +
 image::search-devspaces-operator.png[title=Search for the Dev Spaces Operator]
 
-. In the operator details page, select the `stable` channel and the latest `Version` of Dev Spaces (3.15 as of Sep 2024), and then click `Install`.
+. In the operator details page, select the `stable` channel and the latest `Version` of Dev Spaces (3.27.1 as of May 2026), and then click `Install`.
 
-. In the `Install Operator` page, leave all fields at their default value and only change the `Installed Namespace` field to `openshift-devspaces`. Click `Install` to proceed.
+. In the `Install Operator` page, leave all fields at their default value and only change the `Installed Namespace` field to `openshiftdevspaces`. Click `Install` to proceed.
++
+image::ns.png[title=Create openshift-devspaces namespace]
 +
 image::change-devspaces-namespace.png[title=Change Namespace where Dev Spaces will be installed]
 
@@ -39,13 +41,21 @@ image::change-devspaces-namespace.png[title=Change Namespace where Dev Spaces wi
 +
 image::operator-success.png[title=Operator installed successfully]
 
-. Click `Red Hat OpenShift Dev Spaces instance Specification` in the `Provided APIs` column to create a new Dev Spaces instance from the installed operator. Click `Create CheCluster`.
+. Click `Red Hat OpenShift Dev Spaces instance Specification` in the `Provided APIs` column to create a new Dev Spaces instance from the installed operator. Click `Create Instance`.
++
+image::instance.png[title=Create Instance]
 
 . In the `Create CheCluster` page, leave all values at defaults, and click `Create` to create a new Dev Spaces instance. You will accept the default configuration at this point and get a basic Dev Spaces instance up and running. You will progressively configure the instance in subsequent courses in the learning path.
++
+image::createchecluster.png[title=Create CheCluster]
 
 . Wait for a few minutes while the instance is created. Click the `devspaces` CheCluster resource and verify that the `Message` field says `None`, indicating that the instance was successfully initialized.
++
+image::message.png[title=Installation Successful]
 
 . Click on the `Resources` tab and note the list of Kubernetes resources created. All the resources must have a `Status` of `Created`.
++
+image::success.png[title=Installation Successful]
 
 . Switch back to the `Details` tab. Note the link to the Dev Spaces instance under the `Red Hat OpenShift Dev Spaces URL` field.
 +
@@ -63,4 +73,4 @@ image::devspaces-home.png[title=Dev Spaces Home Page]
 
 == References
 
-* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.15/html-single/administration_guide/index#installing-devspaces-on-openshift-using-the-web-console[Installing Dev Spaces on OpenShift using the web console^]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_dev_spaces/3.27/html-single/administration_guide/index#installing-devspaces-on-openshift-using-the-web-console[Installing Dev Spaces on OpenShift using the web console^]

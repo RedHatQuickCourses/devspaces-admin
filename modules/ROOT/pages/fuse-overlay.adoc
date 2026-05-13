@@ -68,26 +68,6 @@ stat: cannot statx '/dev/fuse': No such file or directory
 +
 It means that the /dev/fuse device is not enabled, and the `fuse-overlayfs` storage driver will not work. Check that you have run the commands correctly as outlined in previous steps.
 
-. Next, to enable the `fuse-overlayfs` storage driver, inspect the contents of the `~/.config/containers/storage.conf` file, and note that Podman and Buildah in the workspace is configured to use the `vfs` driver by default:
-+
-[source,bash,subs=+quotes]
-----
-web-nodejs-sample $ cat ~/.config/containers/storage.conf
-[storage]
-driver = "vfs"
-----
-
-. Edit the `~/.config/containers/storage.conf` file inside the workspace and make the following changes (Use the `vi` or `vim` editor to make the changes):
-+
-[source,bash,subs=+quotes]
-----
-[storage]
-driver = "overlay"
-
-[storage.options.overlay]
-mount_program="/usr/bin/fuse-overlayfs" 
-----
-
 . Delete some cached files using the old `vfs` driver
 +
 [source,bash,subs=+quotes]
@@ -100,12 +80,12 @@ web-nodejs-sample $ rm -rf  ~/.local/share/containers/storage
 [source,bash,subs=+quotes]
 ----
 web-nodejs-sample $ podman info | grep overlay
-graphDriverName: overlay
-overlay.mount_program:
-  Executable: /usr/bin/fuse-overlayfs
-  Package: fuse-overlayfs-1.13-1.module+el8.10.0+22202+761b9a65.x86_64
-  fuse-overlayfs: version 1.13-dev
-  Backing Filesystem: overlayfs
+  graphDriverName: overlay
+    overlay.mount_program:
+      Executable: /usr/bin/fuse-overlayfs
+      Package: fuse-overlayfs-1.16-1.el9_7.x86_64
+        fuse-overlayfs: version 1.16
+    Backing Filesystem: overlayfs
 ----
 
 You have now enabled the `fuse-overlayfs` storage driver in a running workspace. The manual steps to enable it are not optimal at scale. You need to enable the driver globally for all workspaces. One way to approach this, is to build a custom image and make all the configuration changes needed for the `fuse-overlayfs` storage driver. Another approach is to configure this globally in the `CheCluster` CR configuration so that all workspaces launched by users have this driver enabled by default. You will do so in the next lab.
